@@ -1,7 +1,9 @@
 bin
-src/event
-src/httpHelper/*.txt
-src/timeZone
+src/main/event
+src/main/httpHelper/*.txt
+src/main/timeZone
+src/test/timeZone
+curl.txt
 .classpath
 *.class
 *.log
