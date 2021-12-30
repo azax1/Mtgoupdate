@@ -1,4 +1,4 @@
-package day;
+package referenceTweets;
 
 public enum DaysUS implements Day {
 	MONDAY("Monday Tournament Schedule (PT)\n"

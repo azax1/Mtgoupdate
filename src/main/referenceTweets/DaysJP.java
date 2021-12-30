@@ -1,4 +1,4 @@
-package day;
+package referenceTweets;
 
 public enum DaysJP implements Day {
 		MONDAY("Monday Tournament Schedule (JST)\n"
@@ -51,10 +51,12 @@ public enum DaysJP implements Day {
 		
 		FRIDAY("Friday Tournament Schedule (JST)\n"
 			+ "\n"
+			+ "12am Pauper Prelim\n"
 			+ "4am Modern Prelim\n"
 			+ "5am Limited Prelim\n"
 			+ "8am Legacy Prelim\n"
 			+ "9am Limited Prelim\n"
+			+ "Noon Standard Prelim\n"
 			+ "2pm Pioneer Prelim\n"
 			+ "5pm Legacy Prelim\n"
 			+ "7pm Limited Prelim\n"

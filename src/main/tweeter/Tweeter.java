@@ -1,17 +1,15 @@
 package tweeter;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.HashMap;
 import java.util.Map;
 
-import day.Day;
-import day.DaysEU;
-import day.DaysJP;
-import day.DaysUS;
 import httpHelper.HttpHelper;
 import lombok.SneakyThrows;
+import timeZone.Europe;
+import timeZone.Japan;
+import timeZone.TimeZone;
+import timeZone.US;
 
 public class Tweeter {
 	// expects these arguments:
@@ -24,39 +22,34 @@ public class Tweeter {
 		LocalDate endDate = LocalDate.parse(args[1]);
 		String region = args[2];
 		boolean dryRun = !Boolean.parseBoolean(args[3]);
-		scheduleTweets(startDate, endDate, region, dryRun);
+		
+		TimeZone timeZone;
+		if ("US".equals(region)) {
+			timeZone = US.getInstance();
+		} else if ("EU".equals(region)) {
+			timeZone = Europe.getInstance();
+		} else if ("JP".equals(region)) {
+			timeZone = Japan.getInstance();
+		} else {
+			throw new IllegalArgumentException("unexpected region: \"" + region + "\"");
+		}
+		
+		scheduleTweets(startDate, endDate, timeZone, dryRun);
 	}
 	
-	private static void scheduleTweets(LocalDate startDate, LocalDate endDate, String region, boolean dryRun) {
+	private static void scheduleTweets(LocalDate startDate, LocalDate endDate, TimeZone timeZone, boolean dryRun) {
 		LocalDate date = startDate;
 		while (!date.equals(endDate)) {
-			String response = scheduleTweet(date, region, dryRun);
+			String response = scheduleTweet(date, timeZone, dryRun);
 			date = date.plusDays(1);
 			System.out.println(response + "\n"); // TODO error handling
 		}
 	}
 	
 	@SneakyThrows
-	private static String scheduleTweet(LocalDate date, String region, boolean dryRun) {
-		Day refDay;
-		if ("US".equals(region)) {
-			refDay = DaysUS.MONDAY;
-		} else if ("EU".equals(region)) {
-			refDay = DaysEU.MONDAY;
-		} else if ("JP".equals(region)) {
-			refDay = DaysJP.MONDAY;
-		} else {
-			throw new IllegalArgumentException("unexpected region: \"" + region + "\"");
-		}
-		DayOfWeek day = date.getDayOfWeek();
-		String scheduledTime;
-		if (refDay instanceof DaysUS) {
-			 scheduledTime = date.toString() + refDay.postTime();
-		} else {
-			 scheduledTime = date.minus(Period.ofDays(1)).toString() + refDay.postTime();
-		}
-		String tweetBody = Day.fromDayOfWeek(day, refDay).text();
-		
+	private static String scheduleTweet(LocalDate date, TimeZone timeZone, boolean dryRun) {
+		String scheduledTime = timeZone.getPostTime(date);
+		String tweetBody = timeZone.getTweetText(date);
 		Map<String, String> params = new HashMap<>();
 		params.put(HttpHelper.SCHEDULED_TIME_PLACEHOLDER, scheduledTime);
 		params.put(HttpHelper.TWEET_BODY_PLACEHOLDER, tweetBody);

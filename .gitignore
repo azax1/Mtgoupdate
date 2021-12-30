@@ -1,8 +1,5 @@
 bin
-src/main/event
 src/main/httpHelper/*.txt
-src/main/timeZone
-src/test/timeZone
 curl.txt
 .classpath
 *.class

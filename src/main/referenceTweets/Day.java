@@ -1,4 +1,4 @@
-package day;
+package referenceTweets;
 
 import java.time.DayOfWeek;
 

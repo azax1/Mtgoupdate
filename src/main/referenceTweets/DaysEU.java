@@ -1,4 +1,4 @@
-package day;
+package referenceTweets;
 
 public enum DaysEU implements Day {
 	MONDAY("Monday Tournament Schedule (CET)\n"
@@ -52,6 +52,7 @@ public enum DaysEU implements Day {
 		+ "\n"
 		+ "12am Legacy Prelim\n"
 		+ "1am Limited Prelim\n"
+		+ "4am Standard Prelim\n"
 		+ "6am Pioneer Prelim\n"
 		+ "9am Legacy Prelim\n"
 		+ "11am Limited Prelim\n"
