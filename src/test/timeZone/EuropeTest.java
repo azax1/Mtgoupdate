@@ -20,7 +20,7 @@ public class EuropeTest {
 		while (!date.equals(end)) {
 			String calculatedTweet = Europe.getInstance().getTweetText(date);
 			String referenceTweet = Day.fromDayOfWeek(date.getDayOfWeek(), DaysEU.MONDAY).text();
-			assertEquals(calculatedTweet, referenceTweet);
+			assertEquals(referenceTweet, calculatedTweet);
 			
 			date.plusDays(1);
 		}

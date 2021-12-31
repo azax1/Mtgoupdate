@@ -20,7 +20,7 @@ public class JapanTest {
 		while (!date.equals(end)) {
 			String calculatedTweet = Japan.getInstance().getTweetText(date);
 			String referenceTweet = Day.fromDayOfWeek(date.getDayOfWeek(), DaysJP.MONDAY).text();
-			assertEquals(calculatedTweet, referenceTweet);
+			assertEquals(referenceTweet, calculatedTweet);
 			
 			date.plusDays(1);
 		}

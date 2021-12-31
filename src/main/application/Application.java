@@ -1,4 +1,4 @@
-package tweeter;
+package application;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import timeZone.Japan;
 import timeZone.TimeZone;
 import timeZone.US;
 
-public class Tweeter {
+public class Application {
 	// expects these arguments:
 	// args[0] = begin date for tweets (inclusive)
 	// args[1] = end date for tweets (exclusive)

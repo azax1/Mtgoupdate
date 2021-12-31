@@ -2,6 +2,7 @@ package timeZone;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 import event.Event;
 
@@ -20,8 +21,8 @@ public class Europe extends TimeZone {
 	}
 	
 	@Override
-	Event[] getEventsForDay(LocalDate date) {
-		// TODO this shit
+	List<Event> getEventsForDay(LocalDate date) {
+		// TODO DST with this shit
 		return getEventsForDay(date, offsetFromPT);
 	}
 

@@ -1,22 +1,29 @@
 package event;
 
+import lombok.Builder;
+import lombok.Getter;
+
 /**
- * Represents a specific MTGO event (Prelim or Challenge, currently) in a specific format and at a specific time.
+ * Represents a specific MTGO event in a specific format and at a specific time.
  */
+@Getter
+@Builder
 public class Event {
+	int hour;
 	Format format;
 	EventType eventType;
 	
-	public Event(Format format) {
-		this(format, EventType.PRELIM);
+	public Event(int hour, Format format) {
+		this(hour, format, EventType.PRELIM);
 	}
 	
-	public Event(Format format, EventType eventType) {
+	public Event(int hour, Format format, EventType eventType) {
+		this.hour = hour;
 		this.format = format;
 		this.eventType = eventType;
 	}
 	
-	public static String prettyPrint(int hour, Event event) {
+	public String prettyPrint() {
 		StringBuilder ret = new StringBuilder();
 		if (hour == 0) {
 			ret.append("12am ");
@@ -35,9 +42,9 @@ public class Event {
 			}
 		}
 		
-		ret.append(event.format.toString());
+		ret.append(format.toString());
 		ret.append(" ");
-		ret.append(event.eventType.toString());
+		ret.append(eventType.toString());
 		
 		return ret.toString();
 	}

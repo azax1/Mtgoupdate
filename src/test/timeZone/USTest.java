@@ -20,7 +20,7 @@ public class USTest {
 		while (!date.equals(end)) {
 			String calculatedTweet = US.getInstance().getTweetText(date);
 			String referenceTweet = Day.fromDayOfWeek(date.getDayOfWeek(), DaysUS.MONDAY).text();
-			assertEquals(calculatedTweet, referenceTweet);
+			assertEquals(referenceTweet, calculatedTweet);
 			
 			date.plusDays(1);
 		}
