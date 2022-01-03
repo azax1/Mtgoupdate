@@ -22,8 +22,16 @@ public class Europe extends TimeZone {
 	
 	@Override
 	List<Event> getEventsForDay(LocalDate date) {
-		// TODO DST with this shit
-		return getEventsForDay(date, offsetFromPT);
+		TimeZone unitedStates = US.getInstance();
+		int offsetFromOffset = 0;
+		
+		if (date.isBefore(unitedStates.dstStarts) || date.isAfter(unitedStates.dstEnds)) {
+			offsetFromOffset--;
+		}
+		if (date.isBefore(dstStarts) || date.isAfter(unitedStates.dstEnds)) {
+			offsetFromOffset++;
+		}
+		return getEventsForDay(date, offsetFromPT + offsetFromOffset);
 	}
 
 	@Override

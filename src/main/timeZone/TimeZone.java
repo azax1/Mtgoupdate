@@ -61,16 +61,16 @@ public abstract class TimeZone {
 		// Both because of a time zone offset and because midnight is included in the day at both ends
 		
 		if (offset > 0) {
-			firstDay = masterSchedule[date.minus(Period.ofDays(1)).getDayOfWeek().getValue() - 1];
-			firstSpecial = specialSchedule.get(date.minus(Period.ofDays(1)));
+			firstDay = ScheduleInfo.getMasterEventSchedule(date.minus(Period.ofDays(1)).getDayOfWeek());
+			secondDay = ScheduleInfo.getMasterEventSchedule(day);
 			
-			secondDay = masterSchedule[day.getValue() - 1];
+			firstSpecial = specialSchedule.get(date.minus(Period.ofDays(1)));
 			secondSpecial = specialSchedule.get(date);
 		} else {
-			firstDay = masterSchedule[day.getValue() - 1];
-			firstSpecial = specialSchedule.get(date);
+			firstDay = ScheduleInfo.getMasterEventSchedule(day);
+			secondDay =  ScheduleInfo.getMasterEventSchedule(date.plus(Period.ofDays(1)).getDayOfWeek());
 			
-			secondDay =  masterSchedule[date.plus(Period.ofDays(1)).getDayOfWeek().getValue() - 1];
+			firstSpecial = specialSchedule.get(date);
 			secondSpecial = specialSchedule.get(date.plus(Period.ofDays(1)));
 			
 		}
@@ -120,42 +120,49 @@ public abstract class TimeZone {
 	 * Modifies regular schedule to accurately reflect special events held on that day
 	 */
 	private void specialify(LocalDate date, List<Event> regular, List<Event> special) {
-		// TODO LCQs
-		if (special == null) {
-			return;
-		}
-		for (Event event : special) {
-			EventType type = event.getEventType();
-			if (type == PTQ || type == SUPER_PTQ) { // just insert into schedule
-				int i;
-				for (i = 0; i < regular.size() &&
-						regular.get(i).getHour() <= event.getHour(); i++) {}
-				regular.add(i, event);
-			} else if (type == SHOWCASE_CHALLENGE) { // replaces corresponding Challenge
-				Iterator<Event> itr = regular.iterator();
-				while (itr.hasNext()) {
-					Event e = itr.next();
-					if (e.getEventType() == CHALLENGE && e.getFormat() == event.getFormat()) {
-						itr.remove();
-						break;
+		if (special != null) {
+			for (Event event : special) {
+				EventType type = event.getEventType();
+				if (type == PTQ || type == SUPER_PTQ) { // just insert into schedule
+					int i;
+					for (i = 0; i < regular.size() &&
+							regular.get(i).getHour() <= event.getHour(); i++) {}
+					regular.add(i, event);
+				} else if (type == SHOWCASE_CHALLENGE) { // replaces corresponding Challenge
+					for (int i = 0; i < regular.size(); i++) {
+						Event e = regular.get(i);
+						if (e.getEventType() == CHALLENGE && e.getFormat() == event.getFormat()) {
+							regular.remove(i);
+							break;
+						}
 					}
+					
+					// Now insert the Showcase Challenge
+					// the Pauper Showcase Challenge is at a different time than regular Challenge
+					// so have to search anew for insertion point
+					int i;
+					for (i = 0; i < regular.size() &&
+							regular.get(i).getHour() <= event.getHour(); i++) {}
+					regular.add(i, event);
+				} else {
+					throw new UnsupportedOperationException("Unexpected special event type " + type);
 				}
-				
-				// Now insert the Showcase Challenge
-				// the Pauper Showcase Challenge is at a different time than regular Challenge
-				// so have to search anew for insertion point
-				int i;
-				for (i = 0; i < regular.size() &&
-						regular.get(i).getHour() <= event.getHour(); i++) {}
-				regular.add(i, event);
-			} else {
-				throw new UnsupportedOperationException("Unexpected special event type " + type);
 			}
 		}
-		// TODO LCQs
+		LocalDate lcqStart = ScheduleInfo.getLCQStartDate();
+		LocalDate lcqEnd = ScheduleInfo.getLCQEndDate();
+		if (date.isBefore(lcqStart) || date.isAfter(lcqEnd)) {
+			return;
+		} else { // TODO handle date = lcqEnd
+			for (int i = 0; i < regular.size(); i++) {
+				Event e = regular.get(i);
+				if (e.getFormat().isShowcaseFormat() && e.getEventType() == PRELIM) {
+					regular.remove(i);
+					regular.add(i, new Event(e.getHour(), e.getFormat(), LCQ));
+				}
+			}
+		}
 	}
-	
-	public final static List<Event>[] masterSchedule = ScheduleInfo.getMasterEventSchedule();
 	
 	public final static Map<LocalDate, List<Event>> specialSchedule = ScheduleInfo.getSpecialEventSchedule();
 }

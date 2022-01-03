@@ -1,11 +1,24 @@
 package event;
 
 public enum EventType {
-	PRELIM, CHALLENGE, PTQ, SUPER_PTQ, LCQ, SHOWCASE_CHALLENGE;
+	PRELIM, CHALLENGE, LCQ, PTQ, SHOWCASE_CHALLENGE, SUPER_PTQ;
 	
 	public String toString() {
-		String name = name().replace("_", " ");
-		name = name.charAt(0) + name.substring(1).toLowerCase();
-		return name.replace("Ptq", "PTQ");
+		switch(this) {
+			case PRELIM:
+				return "Prelim";
+			case CHALLENGE:
+				return "Challenge";
+			case LCQ:
+				return "LCQ";
+			case PTQ:
+				return "PTQ";
+			case SHOWCASE_CHALLENGE:
+				return "Showcase Challenge";
+			case SUPER_PTQ:
+				return "Super PTQ";
+			default:
+				throw new UnsupportedOperationException("Unrecognized event type " + this.name());		
+		}
 	}
 }
