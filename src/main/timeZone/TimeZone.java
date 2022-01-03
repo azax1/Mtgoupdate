@@ -75,7 +75,7 @@ public abstract class TimeZone {
 			
 		}
 		specialify(date, firstDay, firstSpecial);
-		specialify(date, secondDay, secondSpecial);
+		specialify(date.plus(Period.ofDays(1)), secondDay, secondSpecial);
 		
 		for (Event e : firstDay) {
 			if (e.getHour() < (24 - offset) % 24) {
@@ -153,7 +153,18 @@ public abstract class TimeZone {
 		LocalDate lcqEnd = ScheduleInfo.getLCQEndDate();
 		if (date.isBefore(lcqStart) || date.isAfter(lcqEnd)) {
 			return;
-		} else { // TODO handle date = lcqEnd
+		} else if (date.equals(lcqEnd)) {
+			for (int i = 0; i < regular.size(); i++) {
+				Event e = regular.get(i);
+				if (e.getHour() >= 11) { // magic time when LCQs end on Wednesday
+					break;
+				}
+				if (e.getFormat().isShowcaseFormat() && e.getEventType() == PRELIM) {
+					regular.remove(i);
+					regular.add(i, new Event(e.getHour(), e.getFormat(), LCQ));
+				}
+			}
+		} else {
 			for (int i = 0; i < regular.size(); i++) {
 				Event e = regular.get(i);
 				if (e.getFormat().isShowcaseFormat() && e.getEventType() == PRELIM) {
