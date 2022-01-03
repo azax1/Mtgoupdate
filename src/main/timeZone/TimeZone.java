@@ -1,6 +1,9 @@
 package timeZone;
 
 import event.Event;
+import event.EventType;
+
+import static event.EventType.*;
 import event.ScheduleInfo;
 
 import java.time.DayOfWeek;
@@ -8,8 +11,10 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public abstract class TimeZone {
 	int offsetFromPT;
@@ -50,18 +55,28 @@ public abstract class TimeZone {
 		List<Event> ret = new ArrayList<>();
 		DayOfWeek day = date.getDayOfWeek();
 		List<Event> firstDay, secondDay;
+		List<Event> firstSpecial, secondSpecial;
 		
 		// In general, one day's events straddle two different days in the master schedule
 		// Both because of a time zone offset and because midnight is included in the day at both ends
 		
 		if (offset > 0) {
 			firstDay = masterSchedule[date.minus(Period.ofDays(1)).getDayOfWeek().getValue() - 1];
+			firstSpecial = specialSchedule.get(date.minus(Period.ofDays(1)));
+			
 			secondDay = masterSchedule[day.getValue() - 1];
+			secondSpecial = specialSchedule.get(date);
 		} else {
-			firstDay = masterSchedule[day.getValue() - 1];;
+			firstDay = masterSchedule[day.getValue() - 1];
+			firstSpecial = specialSchedule.get(date);
+			
 			secondDay =  masterSchedule[date.plus(Period.ofDays(1)).getDayOfWeek().getValue() - 1];
+			secondSpecial = specialSchedule.get(date.plus(Period.ofDays(1)));
 			
 		}
+		specialify(date, firstDay, firstSpecial);
+		specialify(date, secondDay, secondSpecial);
+		
 		for (Event e : firstDay) {
 			if (e.getHour() < (24 - offset) % 24) {
 				continue;
@@ -101,5 +116,46 @@ public abstract class TimeZone {
 		return sb.toString();
 	}
 	
+	/*
+	 * Modifies regular schedule to accurately reflect special events held on that day
+	 */
+	private void specialify(LocalDate date, List<Event> regular, List<Event> special) {
+		// TODO LCQs
+		if (special == null) {
+			return;
+		}
+		for (Event event : special) {
+			EventType type = event.getEventType();
+			if (type == PTQ || type == SUPER_PTQ) { // just insert into schedule
+				int i;
+				for (i = 0; i < regular.size() &&
+						regular.get(i).getHour() <= event.getHour(); i++) {}
+				regular.add(i, event);
+			} else if (type == SHOWCASE_CHALLENGE) { // replaces corresponding Challenge
+				Iterator<Event> itr = regular.iterator();
+				while (itr.hasNext()) {
+					Event e = itr.next();
+					if (e.getEventType() == CHALLENGE && e.getFormat() == event.getFormat()) {
+						itr.remove();
+						break;
+					}
+				}
+				
+				// Now insert the Showcase Challenge
+				// the Pauper Showcase Challenge is at a different time than regular Challenge
+				// so have to search anew for insertion point
+				int i;
+				for (i = 0; i < regular.size() &&
+						regular.get(i).getHour() <= event.getHour(); i++) {}
+				regular.add(i, event);
+			} else {
+				throw new UnsupportedOperationException("Unexpected special event type " + type);
+			}
+		}
+		// TODO LCQs
+	}
+	
 	public final static List<Event>[] masterSchedule = ScheduleInfo.getMasterEventSchedule();
+	
+	public final static Map<LocalDate, List<Event>> specialSchedule = ScheduleInfo.getSpecialEventSchedule();
 }

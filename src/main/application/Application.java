@@ -54,6 +54,6 @@ public class Application {
 		params.put(HttpHelper.SCHEDULED_TIME_PLACEHOLDER, scheduledTime);
 		params.put(HttpHelper.TWEET_BODY_PLACEHOLDER, tweetBody);
 
-		return HttpHelper.sendRequest(params, dryRun);
+		return HttpHelper.sendRequest(timeZone, params, dryRun);
 	}
 }

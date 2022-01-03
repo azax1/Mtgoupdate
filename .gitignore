@@ -1,6 +1,6 @@
 bin
 src/main/httpHelper/*.txt
-curl.txt
+*curl.txt
 .classpath
 *.class
 *.log

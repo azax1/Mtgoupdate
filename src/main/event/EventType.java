@@ -5,6 +5,7 @@ public enum EventType {
 	
 	public String toString() {
 		String name = name().replace("_", " ");
-		return name.charAt(0) + name.substring(1).toLowerCase();
+		name = name.charAt(0) + name.substring(1).toLowerCase();
+		return name.replace("Ptq", "PTQ");
 	}
 }
