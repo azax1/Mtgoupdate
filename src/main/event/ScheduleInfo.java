@@ -2,10 +2,17 @@ package event;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import timeZone.TimeZone;
 
 import static event.Format.*;
 import static event.EventType.*;
@@ -115,7 +122,7 @@ public class ScheduleInfo {
 	 * Returns the current season's list of PTQs, Super PTQs, and Showcase Challenges.
 	 */
 	public static Map<LocalDate, List<Event>> getSpecialEventSchedule() {
-		Map<LocalDate, List<Event>> map = new HashMap<>();
+		Map<LocalDate, List<Event>> map = new LinkedHashMap<>(); // iteration order = insertion order
 		
 		map.put(LocalDate.parse("2021-12-17"), listify(new Event(23, LIMITED, SUPER_PTQ)));
 		map.put(LocalDate.parse("2021-12-19"), listify(new Event(1, MODERN, SUPER_PTQ)));
@@ -143,6 +150,69 @@ public class ScheduleInfo {
 		map.put(LocalDate.parse("2022-04-10"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
 		
 		return map;
+	}
+	
+	public static Map<LocalDate, String> getSpecialEventAnnouncementStrings
+	(LocalDate startDate, LocalDate endDate, TimeZone timeZone) {
+		Map<LocalDate, LinkedHashMap<LocalDate, List<Event>>> eventsBySunday =
+				new LinkedHashMap<LocalDate, LinkedHashMap<LocalDate, List<Event>>>();
+		Map<LocalDate, List<Event>> specialEventSchedule = getSpecialEventSchedule();
+		
+		for (Map.Entry<LocalDate, List<Event>> entry : specialEventSchedule.entrySet()) {
+			LocalDate date = entry.getKey();
+			List<Event> theseEvents = entry.getValue();
+			if (date.isBefore(startDate)) {
+				continue;
+			} else if (!date.isBefore(endDate)) {
+				break;
+			} else {
+				for (Event event : theseEvents) {
+					TemporalAdjuster previousSundayAdjuster = TemporalAdjusters.previous(DayOfWeek.SUNDAY);
+					LocalDate prevSunday = date.with(previousSundayAdjuster);
+					
+					if (eventsBySunday.containsKey(prevSunday)) {
+						Map<LocalDate, List<Event>> value = eventsBySunday.get(prevSunday);
+						if (value.containsKey(date)) {
+							value.get(date).add(event);
+						} else {
+							List<Event> list = new LinkedList<>();
+							list.add(event);
+							value.put(date, list);
+						}
+					} else {
+						LinkedHashMap<LocalDate, List<Event>> value = new LinkedHashMap<>();
+						List<Event> valueOfValue = new LinkedList<>();
+						valueOfValue.add(event);
+						value.put(date, valueOfValue);
+						eventsBySunday.put(prevSunday, value);
+					}
+				}
+			}
+		}
+		Map<LocalDate, String> ret = new LinkedHashMap<>();
+		for (LocalDate date : eventsBySunday.keySet()) {
+			StringBuilder sb = new StringBuilder();
+			LinkedHashMap<LocalDate, List<Event>> events = eventsBySunday.get(date);
+			sb.append("Special events this week (")
+				.append(timeZone.getTimeZoneName())
+				.append("):");
+			for (LocalDate eventDate : events.keySet()) {
+				sb.append("\n\n");
+				sb.append(eventDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US))
+					.append(" ")
+					.append(eventDate.format(timeZone.getDateTimeFormatter()));
+				for (Event event : events.get(eventDate)) {
+					sb.append("\n")
+						.append(event.prettyPrint());
+					if (event.getEventType() == EventType.SHOWCASE_CHALLENGE && event.getFormat() != Format.PAUPER) {
+						sb.append(" (replaces regular Challenge)");
+					}
+				}
+			}
+			
+			ret.put(date, sb.toString());
+		}
+		return ret;
 	}
 	
 	public static LocalDate getLCQStartDate() {

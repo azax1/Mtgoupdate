@@ -1,6 +1,7 @@
 package timeZone;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class US extends TimeZone {
 	static US instance;
@@ -16,6 +17,10 @@ public class US extends TimeZone {
 		instance = new US();
 	}
 
+	public static TimeZone getInstance() {
+		return instance;
+	}
+
 	@Override
 	public String getPostTime(LocalDate date) {
 		if (date.isBefore(dstStarts) || date.isAfter(dstEnds)) {
@@ -25,7 +30,8 @@ public class US extends TimeZone {
 		}
 	}
 
-	public static TimeZone getInstance() {
-		return instance;
+	@Override
+	public DateTimeFormatter getDateTimeFormatter() {
+		return DateTimeFormatter.ofPattern("MM/dd");
 	}
 }

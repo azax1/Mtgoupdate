@@ -2,6 +2,7 @@ package timeZone;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import event.Event;
@@ -18,6 +19,10 @@ public class Europe extends TimeZone {
 	
 	static {
 		instance = new Europe();
+	}
+
+	public static TimeZone getInstance() {
+		return instance;
 	}
 	
 	@Override
@@ -47,7 +52,8 @@ public class Europe extends TimeZone {
 		return postDate + postTime;
 	}
 
-	public static TimeZone getInstance() {
-		return instance;
+	@Override
+	public DateTimeFormatter getDateTimeFormatter() {
+		return DateTimeFormatter.ofPattern("dd/MM");
 	}
 }

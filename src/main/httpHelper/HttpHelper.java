@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -19,14 +18,14 @@ public class HttpHelper {
 	public static final String TWEET_BODY_PLACEHOLDER = "$TWEET_BODY";
 	public static final String SCHEDULED_TIME_PLACEHOLDER = "$TIME";
 	
-	public static final String PATH_TO_EU_CURL = "src/main/httpHelper/eu_curl.txt";
-	public static final String PATH_TO_JP_CURL = "src/main/httpHelper/jp_curl.txt";
-	public static final String PATH_TO_US_CURL = "src/main/httpHelper/us_curl.txt";
+	public static final String PATH_TO_EU_CURL = "src/main/httpHelper/Europe/send_tweet_curl.txt";
+	public static final String PATH_TO_JP_CURL = "src/main/httpHelper/Japan/send_tweet_curl.txt";
+	public static final String PATH_TO_US_CURL = "src/main/httpHelper/US/send_tweet_curl.txt";
 			
 	public static final int MAX_TWEET_LENGTH = 280;
 	
 	@SneakyThrows
-	public static String sendRequest(TimeZone timeZone, Map<String, String> params, boolean dryRun) {
+	public static String scheduleTweet(TimeZone timeZone, String tweet, String time, boolean dryRun) {
 		String curlPath;
 		if (timeZone instanceof US) {
 			curlPath = PATH_TO_US_CURL;
@@ -43,10 +42,12 @@ public class HttpHelper {
 		sc.close();
 		
 		long scheduledTime = 
-				OffsetDateTime.parse(params.get(SCHEDULED_TIME_PLACEHOLDER))
+				OffsetDateTime.parse(time)
 				.toEpochSecond();
 		
-		String tweet = params.get(TWEET_BODY_PLACEHOLDER);
+		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace("(" + timeZone.getTimeZoneName() + ")", "");
+		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace("Challenge", "Chally");
 		}
@@ -54,12 +55,12 @@ public class HttpHelper {
 			tweet = tweet.replace("Prelim", "Prlm");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
-			return params.get(SCHEDULED_TIME_PLACEHOLDER) + " tweet was too long to post";
+			return time + " tweet was too long to post";
 		}
 		
 		String ret;
 		if(dryRun) {
-			ret = params.get(SCHEDULED_TIME_PLACEHOLDER) + "\n" + tweet + "\n";
+			ret = time + "\n" + tweet + "\n";
 		} else {
 			String tweetBody = tweet.replace("\n", "\\\\n");
 			// \\\\ escapes the backslashes so the string has \\n when printed

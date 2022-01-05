@@ -1,15 +1,22 @@
 package application;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import event.Event;
+import event.ScheduleInfo;
 import httpHelper.HttpHelper;
 import lombok.SneakyThrows;
 import timeZone.Europe;
 import timeZone.Japan;
 import timeZone.TimeZone;
 import timeZone.US;
+
+import static application.ApplicationMode.*;
 
 public class Application {
 	// expects these arguments:
@@ -18,11 +25,23 @@ public class Application {
 	// args[2] = region (US, EU, JP)
 	// args[3] = not dry-run (true / false)
 	public static void main(String[] args) {
-		LocalDate startDate = LocalDate.parse(args[0]);
-		LocalDate endDate = LocalDate.parse(args[1]);
-		String region = args[2];
-		boolean dryRun = !Boolean.parseBoolean(args[3]);
+		String appMode = args[0];
+		LocalDate startDate = LocalDate.parse(args[1]);
+		LocalDate endDate = LocalDate.parse(args[2]);
+		String region = args[3];
+		boolean dryRun = !Boolean.parseBoolean(args[4]);
 		
+		ApplicationMode mode;
+		if ("normal".equalsIgnoreCase(appMode)) {
+			mode = SCHEDULE_NORMAL;
+		} else if ("special".equalsIgnoreCase(appMode)) {
+			mode = SCHEDULE_SPECIAL;
+		} else if ("delete".equalsIgnoreCase(appMode)) {
+			mode = DELETE;
+		} else {
+			throw new UnsupportedOperationException("Unsupported application mode " + appMode);
+		}
+			
 		TimeZone timeZone;
 		if ("US".equals(region)) {
 			timeZone = US.getInstance();
@@ -34,7 +53,13 @@ public class Application {
 			throw new IllegalArgumentException("unexpected region: \"" + region + "\"");
 		}
 		
-		scheduleTweets(startDate, endDate, timeZone, dryRun);
+		if (mode == SCHEDULE_NORMAL) {
+			scheduleTweets(startDate, endDate, timeZone, dryRun);
+		} else if (mode == SCHEDULE_SPECIAL) {
+			scheduleSpecialTweets(startDate, endDate, timeZone, dryRun);
+		} else if (mode == DELETE) {
+			throw new UnsupportedOperationException("graaaaah I haven't implemented this yet");
+		}
 	}
 	
 	private static void scheduleTweets(LocalDate startDate, LocalDate endDate, TimeZone timeZone, boolean dryRun) {
@@ -48,12 +73,25 @@ public class Application {
 	
 	@SneakyThrows
 	private static String scheduleTweet(LocalDate date, TimeZone timeZone, boolean dryRun) {
-		String scheduledTime = timeZone.getPostTime(date);
-		String tweetBody = timeZone.getTweetText(date);
-		Map<String, String> params = new HashMap<>();
-		params.put(HttpHelper.SCHEDULED_TIME_PLACEHOLDER, scheduledTime);
-		params.put(HttpHelper.TWEET_BODY_PLACEHOLDER, tweetBody);
-
-		return HttpHelper.sendRequest(timeZone, params, dryRun);
+		return HttpHelper.scheduleTweet(
+				timeZone,
+				timeZone.getTweetText(date),
+				timeZone.getPostTime(date),
+				dryRun
+		);
+	}
+	
+	private static void scheduleSpecialTweets(LocalDate startDate, LocalDate endDate, TimeZone timeZone, boolean dryRun) {
+		Map<LocalDate, String> events = ScheduleInfo.getSpecialEventAnnouncementStrings(startDate, endDate, timeZone);
+		for (LocalDate date : events.keySet()) {
+			String tweet = events.get(date);
+			String response = HttpHelper.scheduleTweet(
+					timeZone,
+					tweet,
+					timeZone.getPostTime(date).replace(":00:00Z", ":01:00Z"),
+					dryRun
+			);
+			System.out.println(response + "\n"); // TODO error handling
+		}
 	}
 }

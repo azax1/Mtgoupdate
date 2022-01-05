@@ -2,6 +2,7 @@ package timeZone;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import event.Event;
@@ -19,6 +20,10 @@ public class Japan extends TimeZone {
 	static {
 		instance = new Japan();
 	}
+
+	public static TimeZone getInstance() {
+		return instance;
+	}
 	
 	@Override
 	List<Event> getEventsForDay(LocalDate date) {
@@ -35,7 +40,8 @@ public class Japan extends TimeZone {
 		return date.minus(Period.ofDays(1)).toString() + "T13:00:00Z";
 	}
 
-	public static TimeZone getInstance() {
-		return instance;
+	@Override
+	public DateTimeFormatter getDateTimeFormatter() {
+		return DateTimeFormatter.ofPattern("dd/MM");
 	}
 }

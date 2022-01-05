@@ -5,17 +5,19 @@ import event.EventType;
 
 import static event.EventType.*;
 import event.ScheduleInfo;
+import lombok.Getter;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+@Getter
 public abstract class TimeZone {
 	int offsetFromPT;
 	LocalDate dstStarts;
@@ -40,9 +42,19 @@ public abstract class TimeZone {
 	}
 	
 	/*
+	 * Adjusts a list of events from PT into this time zone.
+	 */
+	public List<Event> adjustInto(LocalDate date, List<Event> events) {
+		return events;
+		// TODO implement
+	}
+	
+	/*
 	 * Returns the UTC time when the event schedule should be posted on this date.
 	 */
 	public abstract String getPostTime(LocalDate date);
+	
+	public abstract DateTimeFormatter getDateTimeFormatter();
 	
 	List<Event> getEventsForDay(LocalDate date) {
 		return getEventsForDay(date, offsetFromPT);
