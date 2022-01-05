@@ -2,6 +2,7 @@ package event;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
@@ -168,8 +169,20 @@ public class ScheduleInfo {
 			} else {
 				for (Event event : theseEvents) {
 					TemporalAdjuster previousSundayAdjuster = TemporalAdjusters.previous(DayOfWeek.SUNDAY);
+					int hour = timeZone.getLocalHour(date, event.getHour());
+					if (hour >= 24) {
+						date = date.plus(Period.ofDays(hour / 24));
+						hour %= 24;
+					} else if (hour < 0) { // should be impossible
+						date = date.minus(Period.ofDays(1));
+						hour = hour + 24;
+					}
+					event = Event.builder()
+								.hour(hour)
+								.format(event.getFormat())
+								.eventType(event.getEventType())
+								.build();
 					LocalDate prevSunday = date.with(previousSundayAdjuster);
-					
 					if (eventsBySunday.containsKey(prevSunday)) {
 						Map<LocalDate, List<Event>> value = eventsBySunday.get(prevSunday);
 						if (value.containsKey(date)) {

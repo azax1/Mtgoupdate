@@ -3,9 +3,6 @@ package timeZone;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-
-import event.Event;
 
 public class Europe extends TimeZone {
 	static Europe instance;
@@ -36,20 +33,6 @@ public class Europe extends TimeZone {
 			offset++;
 		}
 		return offset - 1;
-	}
-	
-	@Override
-	List<Event> getEventsForDay(LocalDate date) {
-		TimeZone unitedStates = US.getInstance();
-		int offsetFromOffset = 0;
-		
-		if (date.isBefore(unitedStates.dstStarts) || date.isAfter(unitedStates.dstEnds)) {
-			offsetFromOffset--;
-		}
-		if (date.isBefore(dstStarts) || date.isAfter(unitedStates.dstEnds)) {
-			offsetFromOffset++;
-		}
-		return getEventsForDay(date, offsetFromPT + offsetFromOffset);
 	}
 
 	@Override

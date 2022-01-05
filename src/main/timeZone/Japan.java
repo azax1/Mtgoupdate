@@ -3,9 +3,6 @@ package timeZone;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-
-import event.Event;
 
 public class Japan extends TimeZone {
 	static Japan instance;
@@ -28,16 +25,6 @@ public class Japan extends TimeZone {
 	@Override
 	public int getExtraOffset(LocalDate date, int hour) {
 		return 0;
-	}
-	
-	@Override
-	List<Event> getEventsForDay(LocalDate date) {
-		TimeZone UnitedStates = US.getInstance();
-		if (date.isBefore(UnitedStates.dstStarts) || date.isAfter(UnitedStates.dstEnds)) {
-			return getEventsForDay(date, offsetFromPT);
-		} else {
-			return getEventsForDay(date, offsetFromPT - 1);
-		}
 	}
 
 	@Override

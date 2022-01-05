@@ -67,24 +67,20 @@ public abstract class TimeZone {
 	 * Specifies how dd-MM information is formatted (for special event announcement tweets).
 	 */
 	public abstract DateTimeFormatter getDateTimeFormatter();
-	
-	List<Event> getEventsForDay(LocalDate date) {
-		return getEventsForDay(date, offsetFromPT);
-	}
-	
+
 	/**
 	 * Gets the list of events for the given date given its offset from PT.
 	 */
-	List<Event> getEventsForDay(LocalDate date, int offset) {
+	List<Event> getEventsForDay(LocalDate date) {
 		List<Event> ret = new ArrayList<>();
 		DayOfWeek day = date.getDayOfWeek();
 		List<Event> firstDay, secondDay;
 		List<Event> firstSpecial, secondSpecial;
+		int offset = 0;
 		
 		// In general, one day's events straddle two different days in the master schedule
 		// Both because of a time zone offset and because midnight is included in the day at both ends
-		
-		if (offset > 0) {
+		if (!(this instanceof US)) {
 			firstDay = ScheduleInfo.getMasterEventSchedule(date.minus(Period.ofDays(1)).getDayOfWeek());
 			secondDay = ScheduleInfo.getMasterEventSchedule(day);
 			
@@ -97,28 +93,31 @@ public abstract class TimeZone {
 			firstSpecial = specialSchedule.get(date);
 			secondSpecial = specialSchedule.get(date.plus(Period.ofDays(1)));
 			
+			offset = 24; // US is weird
 		}
+		
 		specialify(date, firstDay, firstSpecial);
 		specialify(date.plus(Period.ofDays(1)), secondDay, secondSpecial);
 		
 		for (Event e : firstDay) {
-			if (e.getHour() < (24 - offset) % 24) {
+			int hour = getLocalHour(date, e.getHour());
+			if (hour + offset < 24) {
 				continue;
 			}
 			ret.add(Event.builder()
-						.hour((e.getHour() + offset) % 24)
+						.hour(hour % 24)
 						.format(e.getFormat())
 						.eventType(e.getEventType())
 						.build()
 			);
 		}
 		for (Event e : secondDay) {
-			if (e.getHour() > (24 - offset) % 24) {
+			int hour = getLocalHour(date, e.getHour());
+			if (hour + offset > 24) {
 				break;
 			}
-			int newHour = e.getHour() + offset;
 			ret.add(Event.builder()
-					.hour(newHour != 0 ? newHour : 24)
+					.hour(hour + offset)
 					.format(e.getFormat())
 					.eventType(e.getEventType())
 					.build()
