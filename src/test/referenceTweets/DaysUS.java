@@ -22,6 +22,7 @@ public enum DaysUS implements Day {
 		+ "7am Pioneer Prelim\n"
 		+ "9am Limited Prelim\n"
 		+ "11am Pauper Prelim\n"
+		+ "3pm Standard Prelim\n"
 		+ "4pm Limited Prelim\n"
 		+ "7pm Legacy Prelim\n"
 		+ "Midnight Limited Prelim"
@@ -31,6 +32,7 @@ public enum DaysUS implements Day {
 		+ "\n"
 		+ "12am Limited Prelim\n"
 		+ "3am Legacy Prelim\n"
+		+ "7am Standard Prelim\n"
 		+ "11am Pioneer Prelim\n"
 		+ "3pm Modern Prelim\n"
 		+ "4pm Limited Prelim\n"
@@ -47,6 +49,7 @@ public enum DaysUS implements Day {
 		+ "Noon Limited Prelim\n"
 		+ "3pm Legacy Prelim\n"
 		+ "4pm Limited Prelim\n"
+		+ "7pm Standard Prelim\n"
 		+ "9pm Pioneer Prelim\n"
 		+ "Midnight Legacy Prelim"
 	),

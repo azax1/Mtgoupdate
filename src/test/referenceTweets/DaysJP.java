@@ -11,7 +11,7 @@ public enum DaysJP implements Day {
 			+ "9am Limited Prelim\n"
 			+ "5pm Pioneer Prelim\n"
 			+ "8pm Limited Prelim\n"
-			+ "Midnight Modern Prelim\n"
+			+ "Midnight Modern Prelim"
 		),
 	
 		TUESDAY("Tuesday Tournament Schedule (JST)\n"
@@ -19,34 +19,38 @@ public enum DaysJP implements Day {
 			+ "12am Modern Prelim\n"
 			+ "2am Limited Prelim\n"
 			+ "4am Legacy Prelim\n"
-			+ "6am Modern Prelim\n"
+			+ "8am Modern Prelim\n"
 			+ "11am Limited Prelim\n"
 			+ "Noon Pioneer Prelim\n"
 			+ "2pm Vintage Prelim\n"
+			+ "5pm Pauper Prelim\n"
 			+ "8pm Modern Prelim\n"
 			+ "Midnight Pioneer Prelim"
 		),
 		
 		WEDNESDAY("Wednesday Tournament Schedule (JST)\n"
 			+ "\n"
-			+ "12am Pioneer Prelim"
-			+ "8pm Modern Prelim\n"
 			+ "12am Pioneer Prelim\n"
 			+ "2am Limited Prelim\n"
+			+ "4am Pauper Prelim\n"
+			+ "8am Standard Prelim\n"
 			+ "9am Limited Prelim\n"
 			+ "Noon Legacy Prelim\n"
 			+ "5pm Limited Prelim\n"
-			+ "8pm Legacy Prelim"
+			+ "8pm Legacy Prelim\n"
+			+ "Midnight Standard Prelim"
 		),
 		
 		THURSDAY("Thursday Tournament Schedule (JST)\n"
 			+ "\n"
+			+ "12am Standard Prelim\n"
 			+ "4am Pioneer Prelim\n"
 			+ "8am Modern Prelim\n"
 			+ "9am Limited Prelim\n"
 			+ "Noon Vintage Prelim\n"
 			+ "5pm Modern Prelim\n"
-			+ "8pm Pioneer Prelim"
+			+ "8pm Pioneer Prelim\n"
+			+ "Midnight Pauper Prelim"
 		),
 		
 		FRIDAY("Friday Tournament Schedule (JST)\n"
@@ -88,7 +92,7 @@ public enum DaysJP implements Day {
 			+ "9am Limited Prelim\n"
 			+ "5pm Vintage Challenge\n"
 			+ "9pm Modern Challenge\n"
-			+ "11pm Pioneer Challenge\n"
+			+ "11pm Pioneer Challenge"
 		);
 
 	private String label;

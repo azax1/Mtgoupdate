@@ -20,7 +20,7 @@ public class ScheduleInfo {
 			Monday.add(new Event(7, MODERN));
 			Monday.add(new Event(9, LIMITED));
 			Monday.add(new Event(11, LEGACY));
-			Monday.add(new Event(14, MODERN));
+			Monday.add(new Event(15, MODERN));
 			Monday.add(new Event(18, LIMITED));
 			Monday.add(new Event(19, PIONEER));
 			Monday.add(new Event(21, VINTAGE));
@@ -46,9 +46,9 @@ public class ScheduleInfo {
 			Wednesday.add(new Event(3, LEGACY));
 			Wednesday.add(new Event(7, STANDARD));
 			Wednesday.add(new Event(11, PIONEER));
-			Wednesday.add(new Event(14, MODERN));
-			Wednesday.add(new Event(15, LIMITED));
-			Wednesday.add(new Event(18, VINTAGE));
+			Wednesday.add(new Event(15, MODERN));
+			Wednesday.add(new Event(16, LIMITED));
+			Wednesday.add(new Event(19, VINTAGE));
 			
 			return Wednesday;
 		} else if (day == DayOfWeek.THURSDAY) {

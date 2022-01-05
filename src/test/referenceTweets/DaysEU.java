@@ -23,21 +23,25 @@ public enum DaysEU implements Day {
 		+ "Noon Modern Prelim\n"
 		+ "4pm Pioneer Prelim\n"
 		+ "6pm Limited Prelim\n"
-		+ "8pm Pauper Prelim"
+		+ "8pm Pauper Prelim\n"
+		+ "Midnight Standard Prelim"
 	),
 	
 	WEDNESDAY("Wednesday Tournament Schedule (CET)\n"
 		+ "\n"
+		+ "12am Standard Prelim\n"
 		+ "1am Limited Prelim\n"
 		+ "4am Legacy Prelim\n"
 		+ "9am Limited Prelim\n"
 		+ "Noon Legacy Prelim\n"
+		+ "4pm Standard Prelim\n"
 		+ "8pm Pioneer Prelim\n"
 		+ "Midnight Modern Prelim"
 	),
 	
 	THURSDAY("Thursday Tournament Schedule (CET)\n"
 		+ "\n"
+		+ "12am Modern Prelim\n"
 		+ "1am Limited Prelim\n"
 		+ "4am Vintage Prelim\n"
 		+ "9am Modern Prelim\n"
@@ -88,7 +92,8 @@ public enum DaysEU implements Day {
 		+ "5pm Legacy Challenge\n"
 		+ "7pm Pauper Challenge\n"
 		+ "9pm Limited Prelim\n"
-		+ "11pm Standard Challenge"
+		+ "11pm Standard Challenge\n"
+		+ "Midnight Vintage Prelim"
 	);
 	
 	private String label;

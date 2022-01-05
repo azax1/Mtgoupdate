@@ -22,7 +22,7 @@ public class EuropeTest {
 			String referenceTweet = Day.fromDayOfWeek(date.getDayOfWeek(), DaysEU.MONDAY).text();
 			assertEquals(referenceTweet, calculatedTweet);
 			
-			date.plusDays(1);
+			date = date.plusDays(1);
 		}
 	}
 }
