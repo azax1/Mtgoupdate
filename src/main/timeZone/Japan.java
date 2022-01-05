@@ -14,7 +14,7 @@ public class Japan extends TimeZone {
 		this.offsetFromPT = 17;
 		this.dstStarts = null;
 		this.dstEnds = null;
-		this.timeZoneName = "JST";
+		this.name = "JST";
 	}
 	
 	static {
@@ -23,6 +23,11 @@ public class Japan extends TimeZone {
 
 	public static TimeZone getInstance() {
 		return instance;
+	}
+
+	@Override
+	public int getExtraOffset(LocalDate date, int hour) {
+		return 0;
 	}
 	
 	@Override

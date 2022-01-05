@@ -22,7 +22,7 @@ public abstract class TimeZone {
 	int offsetFromPT;
 	LocalDate dstStarts;
 	LocalDate dstEnds;
-	String timeZoneName;
+	String name;
 	
 	/*
 	 * Returns the event schedule for this date in this time zone.
@@ -33,7 +33,7 @@ public abstract class TimeZone {
 		StringBuilder sb = new StringBuilder();
 		sb.append(date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()));
 		sb.append(" Tournament Schedule (");
-		sb.append(timeZoneName);
+		sb.append(name);
 		sb.append(")\n");
 		sb.append("\n");
 		sb.append(prettyPrint(events));
@@ -42,11 +42,20 @@ public abstract class TimeZone {
 	}
 	
 	/*
-	 * Adjusts a list of events from PT into this time zone.
+	 * The indicator function of DST in this time zone.
 	 */
-	public List<Event> adjustInto(LocalDate date, List<Event> events) {
-		return events;
-		// TODO implement
+	public abstract int getExtraOffset(LocalDate date, int hour);
+	
+	/*
+	 * Returns the hour (in this time zone) of the given event occurring on the given date in PT.
+	 */
+	public int getLocalHour(LocalDate date, int hour) {
+		return
+			hour +
+			offsetFromPT +
+			getExtraOffset(date, hour) -
+			US.getInstance().getExtraOffset(date, hour);
+
 	}
 	
 	/*
@@ -54,6 +63,9 @@ public abstract class TimeZone {
 	 */
 	public abstract String getPostTime(LocalDate date);
 	
+	/*
+	 * Specifies how dd-MM information is formatted (for special event announcement tweets).
+	 */
 	public abstract DateTimeFormatter getDateTimeFormatter();
 	
 	List<Event> getEventsForDay(LocalDate date) {

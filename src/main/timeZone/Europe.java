@@ -14,7 +14,7 @@ public class Europe extends TimeZone {
 		this.offsetFromPT = 9;
 		this.dstStarts = LocalDate.parse("2022-03-27");
 		this.dstEnds = LocalDate.parse("2022-10-30");
-		this.timeZoneName = "CET";
+		this.name = "CET";
 	}
 	
 	static {
@@ -23,6 +23,19 @@ public class Europe extends TimeZone {
 
 	public static TimeZone getInstance() {
 		return instance;
+	}
+	
+	public int getExtraOffset(LocalDate date, int hour) {
+		int offset = 0;
+		if (date.isAfter(dstStarts) ||
+				date.equals(dstStarts) && hour >= 1) { // yes, seriously, 1
+				offset++;
+			}
+		if (date.isBefore(dstEnds) ||
+			date.equals(dstEnds) && hour <= 2) {
+			offset++;
+		}
+		return offset - 1;
 	}
 	
 	@Override

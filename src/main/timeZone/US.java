@@ -10,7 +10,7 @@ public class US extends TimeZone {
 		this.offsetFromPT = 0;
  		this.dstStarts = LocalDate.parse("2022-03-13");
 		this.dstEnds = LocalDate.parse("2022-11-06");
-		this.timeZoneName = "PT";
+		this.name = "PT";
 	}
 	
 	static {
@@ -19,6 +19,20 @@ public class US extends TimeZone {
 
 	public static TimeZone getInstance() {
 		return instance;
+	}
+
+	@Override
+	public int getExtraOffset(LocalDate date, int hour) {
+		int offset = 0;
+		if (date.isAfter(dstStarts) ||
+				date.equals(dstStarts) && hour >= 2) {
+				offset++;
+		}
+		if (date.isBefore(dstEnds) ||
+			date.equals(dstEnds) && hour <= 2) {
+			offset++;
+		}
+		return offset - 1;
 	}
 
 	@Override

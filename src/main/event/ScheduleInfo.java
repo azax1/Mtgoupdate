@@ -194,7 +194,7 @@ public class ScheduleInfo {
 			StringBuilder sb = new StringBuilder();
 			LinkedHashMap<LocalDate, List<Event>> events = eventsBySunday.get(date);
 			sb.append("Special events this week (")
-				.append(timeZone.getTimeZoneName())
+				.append(timeZone.getName())
 				.append("):");
 			for (LocalDate eventDate : events.keySet()) {
 				sb.append("\n\n");

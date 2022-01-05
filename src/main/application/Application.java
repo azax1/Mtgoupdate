@@ -1,13 +1,8 @@
 package application;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import event.Event;
 import event.ScheduleInfo;
 import httpHelper.HttpHelper;
 import lombok.SneakyThrows;
@@ -20,10 +15,11 @@ import static application.ApplicationMode.*;
 
 public class Application {
 	// expects these arguments:
-	// args[0] = begin date for tweets (inclusive)
-	// args[1] = end date for tweets (exclusive)
-	// args[2] = region (US, EU, JP)
-	// args[3] = not dry-run (true / false)
+	// args[0] = run mode (post normal events, post special announcement tweets, or delete)
+	// args[1] = begin date for tweets (inclusive)
+	// args[2] = end date for tweets (exclusive)
+	// args[3] = region (US, EU, JP)
+	// args[4] = not dry-run (true / false)
 	public static void main(String[] args) {
 		String appMode = args[0];
 		LocalDate startDate = LocalDate.parse(args[1]);

@@ -46,7 +46,7 @@ public class HttpHelper {
 				.toEpochSecond();
 		
 		if (tweet.length() > MAX_TWEET_LENGTH) {
-			tweet = tweet.replace("(" + timeZone.getTimeZoneName() + ")", "");
+			tweet = tweet.replace("(" + timeZone.getName() + ")", "");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace("Challenge", "Chally");

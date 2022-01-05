@@ -10,6 +10,53 @@ import referenceTweets.Day;
 import referenceTweets.DaysEU;
 
 public class EuropeTest {
+	@Test
+	public void testDstAdjustment() {
+		int hour1 = 0, hour2 = 3;
+
+		TimeZone europe = Europe.getInstance();
+		
+		LocalDate date1 = LocalDate.parse("2022-01-01");
+		LocalDate date2 = US.getInstance().dstStarts;
+		LocalDate date3 = europe.dstStarts;
+		LocalDate date4 = europe.dstEnds;
+		LocalDate date5 = US.getInstance().dstEnds;
+		LocalDate date6 = LocalDate.parse("2022-12-31");
+		
+		int hour;
+		
+		hour = europe.getLocalHour(date1, hour1);
+		assertEquals(europe.offsetFromPT, hour);
+		
+		hour = europe.getLocalHour(date2, hour1);
+		assertEquals(europe.offsetFromPT, hour);
+
+		hour = europe.getLocalHour(date2, hour2);
+		assertEquals(europe.offsetFromPT - 1, hour - hour2);
+		
+		hour = europe.getLocalHour(date3, hour1);
+		assertEquals(europe.offsetFromPT - 1, hour);
+		
+		hour = europe.getLocalHour(date3, hour2);
+		assertEquals(europe.offsetFromPT, hour - hour2);
+		
+		hour = europe.getLocalHour(date4, hour1);
+		assertEquals(europe.offsetFromPT, hour);
+		
+		hour = europe.getLocalHour(date4, hour2);
+		assertEquals(europe.offsetFromPT - 1, hour - hour2);
+		
+		hour = europe.getLocalHour(date5,  hour1);
+		assertEquals(europe.offsetFromPT - 1, hour);
+		
+		hour = europe.getLocalHour(date5, hour2);
+		assertEquals(europe.offsetFromPT, hour - hour2);
+		
+		hour = europe.getLocalHour(date6, hour1);
+		assertEquals(europe.offsetFromPT, hour);
+		
+		
+	}
 	
 	@Test
 	public void sameAsReference() {
