@@ -86,7 +86,7 @@ public class HttpHelper {
 	}
 	
 	@SneakyThrows
-	public static List<String> retrieveScheduledTweets(LocalDate startDate, LocalDate endDate, TimeZone timeZone) {
+	public static List<String> retrieveScheduledTweets(LocalDate startDate, LocalDate endDate, TimeZone timeZone, boolean dryRun) {
 		String curlPath;
 		if (timeZone instanceof US) {
 			curlPath = PATH_TO_US_RETRIEVE_CURL;
@@ -108,7 +108,9 @@ public class HttpHelper {
 				.lines()
 				.collect(Collectors.joining("\n")
 		);
-		System.out.println(response);
+		if (dryRun) {
+			System.out.println(response);
+		}
 		process.destroy();
 		
 		// these get printed out in a big JSON, but we don't need to bust out the big guns to parse it
@@ -198,9 +200,9 @@ public class HttpHelper {
 		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace("Prelim", "Prlm");
 		}
-//		if (tweet.length() > MAX_TWEET_LENGTH) {
-//			tweet = tweet.replace("Super PTQ", "SPTQ");
-//		}
+		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace("Super PTQ", "SPTQ");
+		}
 		return tweet;
 	}
 }

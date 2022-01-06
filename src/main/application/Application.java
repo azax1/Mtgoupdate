@@ -60,10 +60,15 @@ public class Application {
 			scheduleTweets(startDate, endDate, timeZone, dryRun);
 			scheduleSpecialTweets(startDate, endDate, timeZone, dryRun);
 		} else if (mode == DELETE) {
-			List<String> tweetIds = HttpHelper.retrieveScheduledTweets(startDate, endDate, timeZone);
+			List<String> tweetIds = HttpHelper.retrieveScheduledTweets(startDate, endDate, timeZone, dryRun);
+			System.out.println("Beginning to delete tweets for time zone " + timeZone.getName() + "\n");
 			for (String tweetId : tweetIds) {
-				System.out.println(HttpHelper.deleteTweet(tweetId, timeZone, dryRun));
+				String response = HttpHelper.deleteTweet(tweetId, timeZone, dryRun);
+				if (response.contains("error")) {
+					System.out.println(response);
+				}
 			}
+			System.out.println("Done deleting tweets for time zone " + timeZone.getName() + "\n");
 		}
 	}
 	
