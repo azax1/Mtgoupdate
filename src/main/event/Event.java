@@ -43,6 +43,9 @@ public class Event {
 		}
 		
 		ret.append(format.toString());
+		if (format == Format.LIMITED && format.setCode != null && (eventType == EventType.PTQ || eventType == EventType.SUPER_PTQ)) {
+			ret.append(" (" + format.setCode + ")");
+		}
 		ret.append(" ");
 		ret.append(eventType.toString());
 		

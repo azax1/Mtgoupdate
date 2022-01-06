@@ -34,6 +34,6 @@ public class Japan extends TimeZone {
 
 	@Override
 	public DateTimeFormatter getDateTimeFormatter() {
-		return DateTimeFormatter.ofPattern("dd/MM");
+		return DateTimeFormatter.ofPattern("MM/dd");
 	}
 }

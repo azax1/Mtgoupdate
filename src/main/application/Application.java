@@ -1,6 +1,7 @@
 package application;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import event.ScheduleInfo;
@@ -32,6 +33,8 @@ public class Application {
 			mode = SCHEDULE_NORMAL;
 		} else if ("special".equalsIgnoreCase(appMode)) {
 			mode = SCHEDULE_SPECIAL;
+		} else if ("allposts".equalsIgnoreCase(appMode)) {
+			mode = NORMAL_AND_SPECIAL;
 		} else if ("delete".equalsIgnoreCase(appMode)) {
 			mode = DELETE;
 		} else {
@@ -53,18 +56,28 @@ public class Application {
 			scheduleTweets(startDate, endDate, timeZone, dryRun);
 		} else if (mode == SCHEDULE_SPECIAL) {
 			scheduleSpecialTweets(startDate, endDate, timeZone, dryRun);
+		} else if (mode == NORMAL_AND_SPECIAL) {
+			scheduleTweets(startDate, endDate, timeZone, dryRun);
+			scheduleSpecialTweets(startDate, endDate, timeZone, dryRun);
 		} else if (mode == DELETE) {
-			throw new UnsupportedOperationException("graaaaah I haven't implemented this yet");
+			List<String> tweetIds = HttpHelper.retrieveScheduledTweets(startDate, endDate, timeZone);
+			for (String tweetId : tweetIds) {
+				System.out.println(HttpHelper.deleteTweet(tweetId, timeZone, dryRun));
+			}
 		}
 	}
 	
 	private static void scheduleTweets(LocalDate startDate, LocalDate endDate, TimeZone timeZone, boolean dryRun) {
+		System.out.println("Scheduling normal tweets for time zone " + timeZone.getName() + "\n");
 		LocalDate date = startDate;
 		while (!date.equals(endDate)) {
 			String response = scheduleTweet(date, timeZone, dryRun);
 			date = date.plusDays(1);
-			System.out.println(response + "\n"); // TODO error handling
+			if (response.contains("error") || dryRun) {
+				System.out.println(date + "\n" + response + "\n"); // TODO error handling
+			}
 		}
+		System.out.println("Done scheduling normal tweets for time zone " + timeZone.getName() + "\n");
 	}
 	
 	@SneakyThrows
@@ -78,6 +91,7 @@ public class Application {
 	}
 	
 	private static void scheduleSpecialTweets(LocalDate startDate, LocalDate endDate, TimeZone timeZone, boolean dryRun) {
+		System.out.println("Scheduling special tweets for time zone " + timeZone.getName() + "\n");
 		Map<LocalDate, String> events = ScheduleInfo.getSpecialEventAnnouncementStrings(startDate, endDate, timeZone);
 		for (LocalDate date : events.keySet()) {
 			String tweet = events.get(date);
@@ -87,7 +101,10 @@ public class Application {
 					timeZone.getPostTime(date).replace(":00:00Z", ":01:00Z"),
 					dryRun
 			);
-			System.out.println(response + "\n"); // TODO error handling
+			if (response.contains("error") || dryRun) {
+				System.out.println(date + "\n" + response + "\n"); // TODO error handling
+			}
 		}
+		System.out.println("Done scheduling special tweets for time zone " + timeZone.getName() + "\n");
 	}
 }
