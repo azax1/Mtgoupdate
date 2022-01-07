@@ -74,13 +74,7 @@ public class HttpHelper {
 						.replace(TWEET_BODY_PLACEHOLDER, tweetBody)
 						.replace(SCHEDULED_TIME_PLACEHOLDER, String.valueOf(scheduledTime));
 			
-			Process process = new ProcessBuilder(new String[] { "bash", "-c", curlString }).start();
-			ret = new BufferedReader(
-					new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))
-					.lines()
-					.collect(Collectors.joining("\n")
-			);
-			process.destroy();
+			ret = execute(curlString);
 		}
 		return ret;
 	}
@@ -102,16 +96,10 @@ public class HttpHelper {
 		String curlString = sc.next();
 		sc.close();
 		
-		Process process = new ProcessBuilder(new String[] { "bash", "-c", curlString}).start();
-		String response = new BufferedReader(
-				new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))
-				.lines()
-				.collect(Collectors.joining("\n")
-		);
+		String response = execute(curlString);
 		if (dryRun) {
 			System.out.println(response);
 		}
-		process.destroy();
 		
 		// these get printed out in a big JSON, but we don't need to bust out the big guns to parse it
 		// the response looks like this:
@@ -173,14 +161,20 @@ public class HttpHelper {
 			ret = "dry-run to delete tweet with id " + tweetId;
 		} else {
 			curlString = curlString.replace(TWEET_ID_PLACEHOLDER, tweetId);
-			Process process = new ProcessBuilder(new String[] { "bash", "-c", curlString}).start();
-			ret = new BufferedReader(
-					new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))
-					.lines()
-					.collect(Collectors.joining("\n")
-			);
-			process.destroy();
+			ret = execute(curlString);
 		}
+		return ret;
+	}
+	
+	@SneakyThrows
+	private static String execute (String curlString) {
+		Process process = new ProcessBuilder(new String[] { "bash", "-c", curlString }).start();
+		String ret = new BufferedReader(
+				new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))
+				.lines()
+				.collect(Collectors.joining("\n")
+		);
+		process.destroy();
 		return ret;
 	}
 	

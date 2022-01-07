@@ -73,34 +73,34 @@ public abstract class TimeZone {
 	 */
 	List<Event> getEventsForDay(LocalDate date) {
 		List<Event> ret = new ArrayList<>();
-		DayOfWeek day = date.getDayOfWeek();
-		List<Event> firstDay, secondDay;
+		List<Event> firstSchedule, secondSchedule;
 		List<Event> firstSpecial, secondSpecial;
+		LocalDate firstDate, secondDate;
 		int offset = 0;
 		
 		// In general, one day's events straddle two different days in the master schedule
 		// Both because of a time zone offset and because midnight is included in the day at both ends
 		if (!(this instanceof US)) {
-			firstDay = ScheduleInfo.getMasterEventSchedule(date.minus(Period.ofDays(1)).getDayOfWeek());
-			secondDay = ScheduleInfo.getMasterEventSchedule(day);
+			firstDate = date.minus(Period.ofDays(1));
+			secondDate = date;
 			
-			firstSpecial = specialSchedule.get(date.minus(Period.ofDays(1)));
-			secondSpecial = specialSchedule.get(date);
 		} else {
-			firstDay = ScheduleInfo.getMasterEventSchedule(day);
-			secondDay =  ScheduleInfo.getMasterEventSchedule(date.plus(Period.ofDays(1)).getDayOfWeek());
+			firstDate = date;
+			secondDate = date.plus(Period.ofDays(1));
 			
-			firstSpecial = specialSchedule.get(date);
-			secondSpecial = specialSchedule.get(date.plus(Period.ofDays(1)));
-			
-			offset = 24; // US is weird
+			offset = 24; // US is weird, don't worry about it
 		}
+		firstSchedule = ScheduleInfo.getMasterEventSchedule(firstDate.getDayOfWeek());
+		secondSchedule = ScheduleInfo.getMasterEventSchedule(secondDate.getDayOfWeek());
 		
-		specialify(date, firstDay, firstSpecial);
-		specialify(date.plus(Period.ofDays(1)), secondDay, secondSpecial);
+		firstSpecial = specialSchedule.get(firstDate);
+		secondSpecial = specialSchedule.get(secondDate);
 		
-		for (Event e : firstDay) {
-			int hour = getLocalHour(date, e.getHour());
+		specialify(firstDate, firstSchedule, firstSpecial);
+		specialify(secondDate, secondSchedule, secondSpecial);
+		
+		for (Event e : firstSchedule) {
+			int hour = getLocalHour(firstDate, e.getHour());
 			if (hour + offset < 24) {
 				continue;
 			}
@@ -111,8 +111,8 @@ public abstract class TimeZone {
 						.build()
 			);
 		}
-		for (Event e : secondDay) {
-			int hour = getLocalHour(date, e.getHour());
+		for (Event e : secondSchedule) {
+			int hour = getLocalHour(secondDate, e.getHour());
 			if (hour + offset > 24) {
 				break;
 			}
