@@ -7,7 +7,6 @@ import static event.EventType.*;
 import event.ScheduleInfo;
 import lombok.Getter;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;

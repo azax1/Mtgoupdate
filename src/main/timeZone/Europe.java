@@ -25,11 +25,11 @@ public class Europe extends TimeZone {
 	public int getExtraOffset(LocalDate date, int hour) {
 		int offset = 0;
 		if (date.isAfter(dstStarts) ||
-				date.equals(dstStarts) && hour >= 1) { // yes, seriously, 1
+				date.equals(dstStarts) && hour >= 10) {
 				offset++;
 			}
 		if (date.isBefore(dstEnds) ||
-			date.equals(dstEnds) && hour <= 2) {
+			date.equals(dstEnds) && hour <= 11) {
 			offset++;
 		}
 		return offset - 1;
