@@ -100,10 +100,16 @@ public class Application {
 		Map<LocalDate, String> events = ScheduleInfo.getSpecialEventAnnouncementStrings(startDate, endDate, timeZone);
 		for (LocalDate date : events.keySet()) {
 			String tweet = events.get(date);
+			LocalDate postDate;
+			if (timeZone instanceof Japan) {
+				postDate = date;
+			} else {
+				postDate = date.plusDays(1);
+			}
 			String response = HttpHelper.scheduleTweet(
 					timeZone,
 					tweet,
-					timeZone.getPostTime(date.plusDays(1)).replace(":00:00Z", ":01:00Z"),
+					timeZone.getPostTime(postDate).replace(":00:00Z", ":01:00Z"),
 					dryRun
 			);
 			if (response.contains("error") || dryRun) {
