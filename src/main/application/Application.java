@@ -103,7 +103,7 @@ public class Application {
 			String response = HttpHelper.scheduleTweet(
 					timeZone,
 					tweet,
-					timeZone.getPostTime(date).replace(":00:00Z", ":01:00Z"),
+					timeZone.getPostTime(date.plusDays(1)).replace(":00:00Z", ":01:00Z"),
 					dryRun
 			);
 			if (response.contains("error") || dryRun) {
