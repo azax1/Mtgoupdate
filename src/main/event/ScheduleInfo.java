@@ -125,17 +125,17 @@ public class ScheduleInfo {
 	public static Map<LocalDate, List<Event>> getSpecialEventSchedule() {
 		Map<LocalDate, List<Event>> map = new LinkedHashMap<>(); // iteration order = insertion order
 		
-		map.put(LocalDate.parse("2021-12-17"), listify(new Event(23, LIMITED.with("VOW"), SUPER_PTQ)));
+		map.put(LocalDate.parse("2021-12-17"), listify(new Event(23, LIMITED, "VOW", SUPER_PTQ)));
 		map.put(LocalDate.parse("2021-12-19"), listify(new Event(1, MODERN, SUPER_PTQ)));
-		map.put(LocalDate.parse("2021-12-26"), listify(new Event(7, LIMITED.with("VOW"), SUPER_PTQ)));
+		map.put(LocalDate.parse("2021-12-26"), listify(new Event(7, LIMITED, "VOW", SUPER_PTQ)));
 		map.put(LocalDate.parse("2022-01-02"), listify(new Event(11, PIONEER, PTQ)));
-		map.put(LocalDate.parse("2022-01-07"), listify(new Event(14, LIMITED.with("VOW"), PTQ)));
+		map.put(LocalDate.parse("2022-01-07"), listify(new Event(14, LIMITED, "VOW", PTQ)));
 		map.put(LocalDate.parse("2022-01-14"), listify(new Event(14, PIONEER, SUPER_PTQ)));
 		
 		map.put(LocalDate.parse("2022-01-15"),
 				listify(new Event(5, LEGACY, SUPER_PTQ), new Event(15, MODERN, SUPER_PTQ)));
 		
-		map.put(LocalDate.parse("2022-01-16"), listify(new Event(7, LIMITED.with("VOW"), SUPER_PTQ)));
+		map.put(LocalDate.parse("2022-01-16"), listify(new Event(7, LIMITED, "VOW", SUPER_PTQ)));
 		map.put(LocalDate.parse("2022-01-22"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-01-23"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-01-28"), listify(new Event(14, PAUPER, SUPER_PTQ)));
@@ -149,6 +149,8 @@ public class ScheduleInfo {
 		map.put(LocalDate.parse("2022-04-03"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-04-09"), listify(new Event(10, VINTAGE, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-04-10"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-04-30"), listify(new Event(7, LIMITED, "TBD", MOCS_OPEN)));
+		map.put(LocalDate.parse("2022-05-01"), listify(new Event(7, LIMITED, "TBD", MOCS_OPEN)));
 		
 		return map;
 	}
@@ -180,6 +182,7 @@ public class ScheduleInfo {
 					event = Event.builder()
 								.hour(hour)
 								.format(event.getFormat())
+								.remark(event.getRemark())
 								.eventType(event.getEventType())
 								.build();
 					LocalDate prevSunday = date.with(previousSundayAdjuster);

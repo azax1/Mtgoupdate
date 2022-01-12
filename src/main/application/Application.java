@@ -79,7 +79,11 @@ public class Application {
 			String response = scheduleTweet(date, timeZone, dryRun);
 			date = date.plusDays(1);
 			if (response.contains("error") || dryRun) {
-				System.out.println(date + "\n" + response + "\n"); // TODO error handling
+				 // TODO error handling
+				System.out.println(date + "\n" + response + "\n");
+				if (response.contains("Rate limit")) {
+					break;
+				}
 			}
 		}
 		System.out.println("Done scheduling normal tweets for time zone " + timeZone.getName() + "\n");

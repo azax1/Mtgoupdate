@@ -1,5 +1,6 @@
 package event;
 
+import static event.EventType.*;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,16 +12,22 @@ import lombok.Getter;
 public class Event {
 	int hour;
 	Format format;
+	String remark;
 	EventType eventType;
 	
-	public Event(int hour, Format format) {
-		this(hour, format, EventType.PRELIM);
+	public Event(int hour, Format format, String remark, EventType eventType) {
+		this.hour = hour;
+		this.remark = remark;
+		this.format = format;
+		this.eventType = eventType;
 	}
 	
 	public Event(int hour, Format format, EventType eventType) {
-		this.hour = hour;
-		this.format = format;
-		this.eventType = eventType;
+		this(hour, format, null, eventType);
+	}
+	
+	public Event(int hour, Format format) {
+		this(hour, format, EventType.PRELIM);
 	}
 	
 	public String prettyPrint() {
@@ -43,8 +50,9 @@ public class Event {
 		}
 		
 		ret.append(format.toString());
-		if (format == Format.LIMITED && format.setCode != null && (eventType == EventType.PTQ || eventType == EventType.SUPER_PTQ)) {
-			ret.append(" (" + format.setCode + ")");
+		if (format == Format.LIMITED && remark != null &&
+			(eventType == PTQ || eventType == SUPER_PTQ || eventType == MOCS_OPEN)) {
+			ret.append(" (" + remark + ")");
 		}
 		ret.append(" ");
 		ret.append(eventType.toString());
