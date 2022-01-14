@@ -9,8 +9,8 @@ public class Europe extends TimeZone {
 	
 	private Europe() {
 		this.offsetFromPT = 9;
-		this.dstStarts = LocalDate.parse("2022-03-27");
-		this.dstEnds = LocalDate.parse("2022-10-30");
+		this.dstStarts = LocalDate.parse("2022-03-26");
+		this.dstEnds = LocalDate.parse("2022-10-29");
 		this.name = "CET";
 	}
 	
@@ -25,11 +25,11 @@ public class Europe extends TimeZone {
 	public int getExtraOffset(LocalDate date, int hour) {
 		int offset = 0;
 		if (date.isAfter(dstStarts) ||
-				date.equals(dstStarts) && hour >= 10) {
+				date.equals(dstStarts) && hour >= 16) {
 				offset++;
 			}
 		if (date.isBefore(dstEnds) ||
-			date.equals(dstEnds) && hour <= 11) {
+			date.equals(dstEnds) && hour < 17) { // TODO epsilon
 			offset++;
 		}
 		return offset - 1;

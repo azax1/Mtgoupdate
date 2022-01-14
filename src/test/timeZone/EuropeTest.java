@@ -12,7 +12,7 @@ import referenceTweets.DaysEU;
 public class EuropeTest {
 	@Test
 	public void testDstAdjustment() {
-		int hour1 = 0, hour2 = 3;
+		int hour1 = 0, hour2 = 17;
 
 		TimeZone europe = Europe.getInstance();
 		
@@ -36,6 +36,9 @@ public class EuropeTest {
 		
 		hour = europe.getLocalHour(date3, hour1);
 		assertEquals(europe.offsetFromPT - 1, hour);
+		
+		hour = europe.getLocalHour(date3, hour2 - 2);
+		assertEquals(europe.offsetFromPT - 1, hour - hour2 + 2);
 		
 		hour = europe.getLocalHour(date3, hour2);
 		assertEquals(europe.offsetFromPT, hour - hour2);

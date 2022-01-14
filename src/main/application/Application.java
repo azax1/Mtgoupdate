@@ -15,6 +15,18 @@ import timeZone.US;
 import static application.ApplicationMode.*;
 
 public class Application {
+	private LocalDate startDate;
+	private LocalDate endDate;
+	private TimeZone timeZone;
+	private boolean dryRun;
+	
+	Application(LocalDate startDate, LocalDate endDate, TimeZone timeZone, boolean dryRun) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.timeZone = timeZone;
+		this.dryRun = dryRun;
+	}
+	
 	// expects these arguments:
 	// args[0] = run mode (post normal events, post special announcement tweets, or delete)
 	// args[1] = begin date for tweets (inclusive)
@@ -37,7 +49,10 @@ public class Application {
 			mode = NORMAL_AND_SPECIAL;
 		} else if ("delete".equalsIgnoreCase(appMode)) {
 			mode = DELETE;
-		} else {
+		} else if ("replace".equalsIgnoreCase(appMode)) {
+			mode = REPLACE;
+		}
+		else {
 			throw new UnsupportedOperationException("Unsupported application mode " + appMode);
 		}
 			
@@ -51,28 +66,25 @@ public class Application {
 		} else {
 			throw new IllegalArgumentException("unexpected region: \"" + region + "\"");
 		}
+		Application app = new Application(startDate, endDate, timeZone, dryRun);
 		
 		if (mode == SCHEDULE_NORMAL) {
-			scheduleTweets(startDate, endDate, timeZone, dryRun);
+			app.scheduleTweets();
 		} else if (mode == SCHEDULE_SPECIAL) {
-			scheduleSpecialTweets(startDate, endDate, timeZone, dryRun);
+			app.scheduleSpecialTweets();
 		} else if (mode == NORMAL_AND_SPECIAL) {
-			scheduleTweets(startDate, endDate, timeZone, dryRun);
-			scheduleSpecialTweets(startDate, endDate, timeZone, dryRun);
+			app.scheduleTweets();
+			app.scheduleSpecialTweets();
 		} else if (mode == DELETE) {
-			List<String> tweetIds = HttpHelper.retrieveScheduledTweets(startDate, endDate, timeZone, dryRun);
-			System.out.println("Beginning to delete tweets for time zone " + timeZone.getName() + "\n");
-			for (String tweetId : tweetIds) {
-				String response = HttpHelper.deleteTweet(tweetId, timeZone, dryRun);
-				if (response.contains("error")) {
-					System.out.println(response);
-				}
-			}
-			System.out.println("Done deleting tweets for time zone " + timeZone.getName() + "\n");
+			app.deleteTweets();
+		} else if (mode == REPLACE) {
+			app.deleteTweets();
+			app.scheduleTweets();
+			app.scheduleSpecialTweets();
 		}
 	}
 	
-	private static void scheduleTweets(LocalDate startDate, LocalDate endDate, TimeZone timeZone, boolean dryRun) {
+	private void scheduleTweets() {
 		System.out.println("Scheduling normal tweets for time zone " + timeZone.getName() + "\n");
 		LocalDate date = startDate;
 		while (!date.equals(endDate)) {
@@ -90,7 +102,7 @@ public class Application {
 	}
 	
 	@SneakyThrows
-	private static String scheduleTweet(LocalDate date, TimeZone timeZone, boolean dryRun) {
+	private String scheduleTweet(LocalDate date, TimeZone timeZone, boolean dryRun) {
 		return HttpHelper.scheduleTweet(
 				timeZone,
 				timeZone.getTweetText(date),
@@ -99,7 +111,7 @@ public class Application {
 		);
 	}
 	
-	private static void scheduleSpecialTweets(LocalDate startDate, LocalDate endDate, TimeZone timeZone, boolean dryRun) {
+	private void scheduleSpecialTweets() {
 		System.out.println("Scheduling special tweets for time zone " + timeZone.getName() + "\n");
 		Map<LocalDate, String> events = ScheduleInfo.getSpecialEventAnnouncementStrings(startDate, endDate, timeZone);
 		for (LocalDate date : events.keySet()) {
@@ -121,5 +133,17 @@ public class Application {
 			}
 		}
 		System.out.println("Done scheduling special tweets for time zone " + timeZone.getName() + "\n");
+	}
+	
+	private void deleteTweets() {
+		List<String> tweetIds = HttpHelper.retrieveScheduledTweets(startDate, endDate, timeZone, dryRun);
+		System.out.println("Beginning to delete tweets for time zone " + timeZone.getName() + "\n");
+		for (String tweetId : tweetIds) {
+			String response = HttpHelper.deleteTweet(tweetId, timeZone, dryRun);
+			if (response.contains("error")) {
+				System.out.println(response);
+			}
+		}
+		System.out.println("Done deleting tweets for time zone " + timeZone.getName() + "\n");
 	}
 }
