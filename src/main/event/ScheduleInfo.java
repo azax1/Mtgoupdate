@@ -7,6 +7,7 @@ import java.time.format.TextStyle;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -157,7 +158,7 @@ public class ScheduleInfo {
 	
 	public static Map<LocalDate, String> getSpecialEventAnnouncementStrings
 	(LocalDate startDate, LocalDate endDate, TimeZone timeZone) {
-		Map<LocalDate, LinkedHashMap<LocalDate, List<Event>>> eventsBySunday =
+		Map<LocalDate, LinkedHashMap<LocalDate, List<Event>>> eventsByReminderDay =
 				new LinkedHashMap<LocalDate, LinkedHashMap<LocalDate, List<Event>>>();
 		Map<LocalDate, List<Event>> specialEventSchedule = getSpecialEventSchedule();
 		
@@ -170,44 +171,59 @@ public class ScheduleInfo {
 				break;
 			} else {
 				for (Event event : theseEvents) {
-					TemporalAdjuster previousSundayAdjuster = TemporalAdjusters.previous(DayOfWeek.SUNDAY);
 					int hour = timeZone.getLocalHour(date, event.getHour());
 					if (hour >= 24) {
 						date = date.plus(Period.ofDays(hour / 24));
 						hour %= 24;
-					} else if (hour < 0) { // should be impossible
+					} else if (hour < 0) { // should be impossible with current time zones
 						date = date.minus(Period.ofDays(1));
 						hour = hour + 24;
+						System.out.println("nice time zone you have there, would be a real shame if it were appropriately documented");
 					}
 					event = event.cloneWithHour(hour);
+
+					TemporalAdjuster previousThursdayAdjuster = TemporalAdjusters.previous(DayOfWeek.THURSDAY);
+					LocalDate prevThursday = date.with(previousThursdayAdjuster);
+					
+					TemporalAdjuster previousSundayAdjuster = TemporalAdjusters.previous(DayOfWeek.SUNDAY);
 					LocalDate prevSunday = date.with(previousSundayAdjuster);
-					if (eventsBySunday.containsKey(prevSunday)) {
-						Map<LocalDate, List<Event>> value = eventsBySunday.get(prevSunday);
-						if (value.containsKey(date)) {
-							value.get(date).add(event);
+					
+					LocalDate[] keyDates = new LocalDate[] { prevSunday, prevThursday };
+					Arrays.sort(keyDates); // maintain chronological order of keys in returned map	
+					for (LocalDate prevDate : keyDates) {
+						if (eventsByReminderDay.containsKey(prevDate)) {
+							Map<LocalDate, List<Event>> value = eventsByReminderDay.get(prevDate);
+							if (value.containsKey(date)) {
+								value.get(date).add(event);
+							} else {
+								List<Event> list = new LinkedList<>();
+								list.add(event);
+								value.put(date, list);
+							}
 						} else {
-							List<Event> list = new LinkedList<>();
-							list.add(event);
-							value.put(date, list);
+							LinkedHashMap<LocalDate, List<Event>> value = new LinkedHashMap<>();
+							List<Event> valueOfValue = new LinkedList<>();
+							valueOfValue.add(event);
+							value.put(date, valueOfValue);
+							eventsByReminderDay.put(prevDate, value);
 						}
-					} else {
-						LinkedHashMap<LocalDate, List<Event>> value = new LinkedHashMap<>();
-						List<Event> valueOfValue = new LinkedList<>();
-						valueOfValue.add(event);
-						value.put(date, valueOfValue);
-						eventsBySunday.put(prevSunday, value);
 					}
 				}
 			}
 		}
 		Map<LocalDate, String> ret = new LinkedHashMap<>();
-		for (LocalDate date : eventsBySunday.keySet()) {
+		for (LocalDate date : eventsByReminderDay.keySet()) {
 			StringBuilder sb = new StringBuilder();
-			LinkedHashMap<LocalDate, List<Event>> events = eventsBySunday.get(date);
-			sb.append("Special events this week (")
+			LinkedHashMap<LocalDate, List<Event>> events = eventsByReminderDay.get(date);
+			sb.append("Special events this ")
+				.append(date.getDayOfWeek() != DayOfWeek.THURSDAY ? "week" : "weekend")
+				.append(" (")
 				.append(timeZone.getName())
 				.append("):");
 			for (LocalDate eventDate : events.keySet()) {
+				if (!date.isBefore(eventDate)) {
+					continue;
+				}
 				sb.append("\n\n");
 				sb.append(eventDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US))
 					.append(" ")
@@ -220,7 +236,6 @@ public class ScheduleInfo {
 					}
 				}
 			}
-			
 			ret.put(date, sb.toString());
 		}
 		return ret;
