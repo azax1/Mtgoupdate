@@ -182,13 +182,13 @@ public class ScheduleInfo {
 					}
 					event = event.cloneWithHour(hour);
 
-					TemporalAdjuster previousThursdayAdjuster = TemporalAdjusters.previous(DayOfWeek.THURSDAY);
-					LocalDate prevThursday = date.with(previousThursdayAdjuster);
+					TemporalAdjuster previousFridayAdjuster = TemporalAdjusters.previousOrSame(DayOfWeek.FRIDAY);
+					LocalDate prevFriday = date.with(previousFridayAdjuster);
 					
 					TemporalAdjuster previousSundayAdjuster = TemporalAdjusters.previous(DayOfWeek.SUNDAY);
 					LocalDate prevSunday = date.with(previousSundayAdjuster);
 					
-					LocalDate[] keyDates = new LocalDate[] { prevSunday, prevThursday };
+					LocalDate[] keyDates = new LocalDate[] { prevSunday, prevFriday };
 					Arrays.sort(keyDates); // maintain chronological order of keys in returned map	
 					for (LocalDate prevDate : keyDates) {
 						if (eventsByReminderDay.containsKey(prevDate)) {
@@ -216,12 +216,12 @@ public class ScheduleInfo {
 			StringBuilder sb = new StringBuilder();
 			LinkedHashMap<LocalDate, List<Event>> events = eventsByReminderDay.get(date);
 			sb.append("Special events this ")
-				.append(date.getDayOfWeek() != DayOfWeek.THURSDAY ? "week" : "weekend")
+				.append(date.getDayOfWeek() != DayOfWeek.FRIDAY ? "week" : "weekend")
 				.append(" (")
 				.append(timeZone.getName())
 				.append("):");
 			for (LocalDate eventDate : events.keySet()) {
-				if (!date.isBefore(eventDate)) {
+				if (date.isAfter(eventDate)) {
 					continue;
 				}
 				sb.append("\n\n");
