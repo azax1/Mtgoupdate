@@ -1,14 +1,12 @@
 package event;
 
 import static event.EventType.*;
-import lombok.Builder;
 import lombok.Getter;
 
 /**
  * Represents a specific MTGO event in a specific format and at a specific time.
  */
 @Getter
-@Builder
 public class Event {
 	int hour;
 	Format format;
@@ -28,6 +26,15 @@ public class Event {
 	
 	public Event(int hour, Format format) {
 		this(hour, format, EventType.PRELIM);
+	}
+
+	@Override
+	public Event clone() {
+		return new Event(hour, format, remark, eventType);
+	}
+	
+	public Event cloneWithHour(int newHour) {
+		return new Event(newHour, format, remark, eventType);
 	}
 	
 	public String prettyPrint() {

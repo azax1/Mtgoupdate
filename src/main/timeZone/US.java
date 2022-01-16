@@ -2,6 +2,8 @@ package timeZone;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class US extends TimeZone {
 	static US instance;
@@ -47,5 +49,22 @@ public class US extends TimeZone {
 	@Override
 	public DateTimeFormatter getDateTimeFormatter() {
 		return DateTimeFormatter.ofPattern("MM/dd");
+	}
+
+	@Override
+	public Map<LocalDate, String> getDstTweets() {
+		Map<LocalDate, String> ret = new LinkedHashMap<LocalDate, String>();
+		ret.put(
+			dstStarts,
+			"Daylight Saving Time starts Sunday at 2am (in between the Vintage and Modern Challenges)."
+			+ " Remember to turn your clocks forward!"
+		);
+
+		ret.put(
+			dstEnds,
+			"Daylight Saving Time ends Sunday at 2am (in between the Vintage and Modern Challenges)."
+			+ " Remember to turn your clocks black!"
+		);
+		return ret;
 	}
 }

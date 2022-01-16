@@ -46,6 +46,11 @@ public abstract class TimeZone {
 	public abstract int getExtraOffset(LocalDate date, int hour);
 	
 	/*
+	 * Tweets announcing schedule changes due to DST in this time zone or in PT.
+	 */
+	public abstract Map<LocalDate, String> getDstTweets();
+	
+	/*
 	 * Returns the hour (in this time zone) of the given event occurring on the given date in PT.
 	 */
 	public int getLocalHour(LocalDate date, int hour) {
@@ -103,26 +108,14 @@ public abstract class TimeZone {
 			if (hour + offset < 24) {
 				continue;
 			}
-			ret.add(Event.builder()
-						.hour(hour % 24)
-						.format(e.getFormat())
-						.remark(e.getRemark())
-						.eventType(e.getEventType())
-						.build()
-			);
+			ret.add(e.cloneWithHour(hour % 24));
 		}
 		for (Event e : secondSchedule) {
 			int hour = getLocalHour(secondDate, e.getHour());
 			if (hour + offset > 24) {
 				break;
 			}
-			ret.add(Event.builder()
-					.hour(hour + offset)
-					.format(e.getFormat())
-					.remark(e.getRemark())
-					.eventType(e.getEventType())
-					.build()
-			);
+			ret.add(e.cloneWithHour(hour + offset));
 		}
 		return ret;
 	}

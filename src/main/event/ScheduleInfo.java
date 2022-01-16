@@ -179,12 +179,7 @@ public class ScheduleInfo {
 						date = date.minus(Period.ofDays(1));
 						hour = hour + 24;
 					}
-					event = Event.builder()
-								.hour(hour)
-								.format(event.getFormat())
-								.remark(event.getRemark())
-								.eventType(event.getEventType())
-								.build();
+					event = event.cloneWithHour(hour);
 					LocalDate prevSunday = date.with(previousSundayAdjuster);
 					if (eventsBySunday.containsKey(prevSunday)) {
 						Map<LocalDate, List<Event>> value = eventsBySunday.get(prevSunday);

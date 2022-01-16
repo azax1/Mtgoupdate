@@ -51,8 +51,7 @@ public class Application {
 			mode = DELETE;
 		} else if ("replace".equalsIgnoreCase(appMode)) {
 			mode = REPLACE;
-		}
-		else {
+		} else {
 			throw new UnsupportedOperationException("Unsupported application mode " + appMode);
 		}
 			
@@ -148,6 +147,26 @@ public class Application {
 			
 		}
 		System.out.println("Done scheduling special tweets for time zone " + timeZone.getName() + "\n");
+		
+		
+		System.out.println("Scheduling DST tweets for time zone " + timeZone.getName() + "\n");
+		Map<LocalDate, String> dstTweets = timeZone.getDstTweets();
+		for (Map.Entry<LocalDate, String> entry : dstTweets.entrySet()) {
+			LocalDate date = entry.getKey();
+			String tweet = entry.getValue();
+			if (!date.isBefore(startDate) && date.isBefore(endDate)) {
+				String response = HttpHelper.scheduleTweet(
+						timeZone,
+						tweet,
+						timeZone.getPostTime(date).replace(":00:00Z", ":02:00Z"),
+						dryRun
+				);
+				if (response.contains("error") || dryRun) {
+					System.out.println(date + "\n" + response + "\n"); // TODO error handling
+				}
+			}
+		}
+		System.out.println("Done scheduling DST tweets for time zone " + timeZone.getName() + "\n");
 	}
 	
 	private void deleteTweets() {

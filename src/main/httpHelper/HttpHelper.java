@@ -9,6 +9,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import lombok.SneakyThrows;
@@ -18,24 +19,6 @@ import timeZone.TimeZone;
 import timeZone.US;
 
 public class HttpHelper {
-	public static final String TWEET_BODY_PLACEHOLDER = "$TWEET_BODY";
-	public static final String SCHEDULED_TIME_PLACEHOLDER = "$TIME";
-	public static final String TWEET_ID_PLACEHOLDER = "$TWEET_ID";
-	
-	public static final String PATH_TO_EU_SEND_CURL = "src/main/httpHelper/Europe/send_tweet_curl.txt";
-	public static final String PATH_TO_EU_RETRIEVE_CURL = "src/main/httpHelper/Europe/retrieve_tweets_curl.txt";
-	public static final String PATH_TO_EU_DELETE_CURL = "src/main/httpHelper/Europe/delete_tweet_curl.txt";
-	
-	public static final String PATH_TO_JP_SEND_CURL = "src/main/httpHelper/Japan/send_tweet_curl.txt";
-	public static final String PATH_TO_JP_RETRIEVE_CURL = "src/main/httpHelper/Japan/retrieve_tweets_curl.txt";
-	public static final String PATH_TO_JP_DELETE_CURL = "src/main/httpHelper/Japan/delete_tweet_curl.txt";
-
-	public static final String PATH_TO_US_SEND_CURL = "src/main/httpHelper/US/send_tweet_curl.txt";
-	public static final String PATH_TO_US_RETRIEVE_CURL = "src/main/httpHelper/US/retrieve_tweets_curl.txt";
-	public static final String PATH_TO_US_DELETE_CURL = "src/main/httpHelper/US/delete_tweet_curl.txt";
-	
-	public static final int MAX_TWEET_LENGTH = 280;
-	
 	@SneakyThrows
 	public static String scheduleTweet(TimeZone timeZone, String tweet, String time, boolean dryRun) {
 		String curlPath;
@@ -57,9 +40,16 @@ public class HttpHelper {
 				OffsetDateTime.parse(time)
 				.toEpochSecond();
 		
+		if (
+				scheduledTime < TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
+				&& !dryRun // Twitter rejects these tweets but they might be useful for testing
+		) {
+			return "can't schedule tweet in the past";
+		}
+		
 		tweet = condense(tweet, timeZone);
-		if (tweet.length() > MAX_TWEET_LENGTH && dryRun == true) {
-			return time + " tweet was too long to post";
+		if (tweet.length() > MAX_TWEET_LENGTH) {
+			return time + " error: tweet is too long to post";
 		}
 		
 		String ret;
@@ -68,7 +58,7 @@ public class HttpHelper {
 		} else {
 			String tweetBody = tweet.replace("\n", "\\\\n");
 			// \\\\ escapes the backslashes so the string has \\n when printed
-			// Twitter parses \\n as \n
+			// Twitter then parses \\n as \n
 			
 			curlString = curlString
 						.replace(TWEET_BODY_PLACEHOLDER, tweetBody)
@@ -131,7 +121,7 @@ public class HttpHelper {
 			for (k += 34; Character.isDigit(response.charAt(k)); k++) {
 				timeString.append(response.charAt(k));
 			}
-			long time = Long.parseLong(timeString.toString()) / 1000;
+			long time = TimeUnit.MILLISECONDS.toSeconds(Long.parseLong(timeString.toString()));
 			if (startTime < time && time < endTime) {
 				ret.add(restId.toString());
 			}
@@ -167,7 +157,7 @@ public class HttpHelper {
 	}
 	
 	@SneakyThrows
-	private static String execute (String curlString) {
+	private static String execute(String curlString) {
 		Process process = new ProcessBuilder(new String[] { "bash", "-c", curlString }).start();
 		String ret = new BufferedReader(
 				new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))
@@ -199,4 +189,22 @@ public class HttpHelper {
 		}
 		return tweet;
 	}
+	
+	public static final String TWEET_BODY_PLACEHOLDER = "$TWEET_BODY";
+	public static final String SCHEDULED_TIME_PLACEHOLDER = "$TIME";
+	public static final String TWEET_ID_PLACEHOLDER = "$TWEET_ID";
+	
+	public static final String PATH_TO_EU_SEND_CURL = "src/main/httpHelper/Europe/send_tweet_curl.txt";
+	public static final String PATH_TO_EU_RETRIEVE_CURL = "src/main/httpHelper/Europe/retrieve_tweets_curl.txt";
+	public static final String PATH_TO_EU_DELETE_CURL = "src/main/httpHelper/Europe/delete_tweet_curl.txt";
+	
+	public static final String PATH_TO_JP_SEND_CURL = "src/main/httpHelper/Japan/send_tweet_curl.txt";
+	public static final String PATH_TO_JP_RETRIEVE_CURL = "src/main/httpHelper/Japan/retrieve_tweets_curl.txt";
+	public static final String PATH_TO_JP_DELETE_CURL = "src/main/httpHelper/Japan/delete_tweet_curl.txt";
+
+	public static final String PATH_TO_US_SEND_CURL = "src/main/httpHelper/US/send_tweet_curl.txt";
+	public static final String PATH_TO_US_RETRIEVE_CURL = "src/main/httpHelper/US/retrieve_tweets_curl.txt";
+	public static final String PATH_TO_US_DELETE_CURL = "src/main/httpHelper/US/delete_tweet_curl.txt";
+	
+	public static final int MAX_TWEET_LENGTH = 280;
 }
