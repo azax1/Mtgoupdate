@@ -122,15 +122,30 @@ public class Application {
 			} else {
 				postDate = date.plusDays(1);
 			}
-			String response = HttpHelper.scheduleTweet(
-					timeZone,
-					tweet,
-					timeZone.getPostTime(postDate).replace(":00:00Z", ":01:00Z"),
-					dryRun
-			);
-			if (response.contains("error") || dryRun) {
-				System.out.println(date + "\n" + response + "\n"); // TODO error handling
+			
+			// reminder tweet posted on Thursday before weekend events
+			// (Japan is special and has reminder tweets posted on Saturday, not Sunday)
+			// (because a handful of events Sunday PT happen early in the morning on Monday in JSTt)
+			LocalDate reminderDate;
+			if (timeZone instanceof Japan) {
+				reminderDate = postDate.plusDays(5);
+			} else {
+				reminderDate = postDate.plusDays(4);
 			}
+			
+			for (LocalDate thisDate : new LocalDate[] { postDate, reminderDate }) {
+				String response = HttpHelper.scheduleTweet(
+						timeZone,
+						tweet,
+						timeZone.getPostTime(thisDate).replace(":00:00Z", ":01:00Z"),
+						dryRun
+				);
+				if (response.contains("error") || dryRun) {
+					System.out.println(date + "\n" + response + "\n"); // TODO error handling
+				}
+				tweet = tweet.replace("week", "weekend");
+			}
+			
 		}
 		System.out.println("Done scheduling special tweets for time zone " + timeZone.getName() + "\n");
 	}
