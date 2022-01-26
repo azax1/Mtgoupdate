@@ -10,55 +10,97 @@ import referenceTweets.Day;
 import referenceTweets.DaysEU;
 
 public class EuropeTest {
+	int offset = Europe.getInstance().getOffsetFromPT();
+	LocalDate jan1 = LocalDate.parse("2022-01-01");
+	LocalDate usDstStart = US.getInstance().dstStarts;
+	LocalDate euDstStart = Europe.getInstance().dstStarts;
+	LocalDate euDstEnd = Europe.getInstance().dstEnds;
+	LocalDate usDstEnd = US.getInstance().dstEnds;
+	LocalDate dec31 = LocalDate.parse("2022-12-31");
+	
 	@Test
-	public void testDstAdjustment() {
-		int hour1 = 0, hour2 = 17;
-
-		TimeZone europe = Europe.getInstance();
+	public void testBoundaryConditions() {
+		assertEquals(
+			offset,
+			getOffset(jan1, 0)
+		);
 		
-		LocalDate date1 = LocalDate.parse("2022-01-01");
-		LocalDate date2 = US.getInstance().dstStarts;
-		LocalDate date3 = europe.dstStarts;
-		LocalDate date4 = europe.dstEnds;
-		LocalDate date5 = US.getInstance().dstEnds;
-		LocalDate date6 = LocalDate.parse("2022-12-31");
+		assertEquals(
+			offset,
+			getOffset(dec31, 0)
+		);
+	}
+	
+	@Test
+	public void testUsDstStart() {
+		assertEquals(
+			offset,
+			getOffset(usDstStart, 0)
+		);
 		
-		int hour;
+		assertEquals(
+			offset,
+			getOffset(usDstStart, 1)
+		);
 		
-		hour = europe.getLocalHour(date1, hour1);
-		assertEquals(europe.offsetFromPT, hour);
+		assertEquals(
+			offset - 1,
+			getOffset(usDstStart, 2)
+		);
+	}
+	
+	@Test
+	public void testEuDstStart() {
+		assertEquals(
+			offset - 1,
+			getOffset(euDstStart, 0)
+		);
 		
-		hour = europe.getLocalHour(date2, hour1);
-		assertEquals(europe.offsetFromPT, hour);
-
-		hour = europe.getLocalHour(date2, hour2);
-		assertEquals(europe.offsetFromPT - 1, hour - hour2);
+		assertEquals(
+			offset - 1,
+			getOffset(euDstStart, 15)
+		);
 		
-		hour = europe.getLocalHour(date3, hour1);
-		assertEquals(europe.offsetFromPT - 1, hour);
+		assertEquals(
+			offset,
+			getOffset(euDstStart, 17)
+		);
+	}
+	
+	@Test
+	public void testEuDstEnd() {
+		assertEquals(
+			offset,
+			getOffset(euDstEnd, 0)
+		);
 		
-		hour = europe.getLocalHour(date3, hour2 - 2);
-		assertEquals(europe.offsetFromPT - 1, hour - hour2 + 2);
+		assertEquals(
+			offset,
+			getOffset(euDstEnd, 15)
+		);
 		
-		hour = europe.getLocalHour(date3, hour2);
-		assertEquals(europe.offsetFromPT, hour - hour2);
+		assertEquals(
+			offset - 1,
+			getOffset(euDstEnd, 17)
+		);
+	}
+	
+	@Test
+	public void testUsDstEnd() {
+		assertEquals(
+			offset - 1,
+			getOffset(usDstEnd, 0)
+		);
 		
-		hour = europe.getLocalHour(date4, hour1);
-		assertEquals(europe.offsetFromPT, hour);
+		assertEquals(
+			offset - 1,
+			getOffset(usDstEnd, 1)
+		);
 		
-		hour = europe.getLocalHour(date4, hour2);
-		assertEquals(europe.offsetFromPT - 1, hour - hour2);
-		
-		hour = europe.getLocalHour(date5,  hour1);
-		assertEquals(europe.offsetFromPT - 1, hour);
-		
-		hour = europe.getLocalHour(date5, hour2);
-		assertEquals(europe.offsetFromPT, hour - hour2);
-		
-		hour = europe.getLocalHour(date6, hour1);
-		assertEquals(europe.offsetFromPT, hour);
-		
-		
+		assertEquals(
+			offset,
+			getOffset(usDstEnd, 3)
+		);	
 	}
 	
 	@Test
@@ -74,5 +116,9 @@ public class EuropeTest {
 			
 			date = date.plusDays(1);
 		}
+	}
+	
+	private int getOffset(LocalDate date, int hour) {
+		return Europe.getInstance().getLocalHour(date, hour) - hour;
 	}
 }

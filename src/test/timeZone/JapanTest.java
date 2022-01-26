@@ -10,36 +10,69 @@ import referenceTweets.Day;
 import referenceTweets.DaysJP;
 
 public class JapanTest {
+	int offset = Japan.getInstance().getOffsetFromPT();
+	LocalDate jan1 = LocalDate.parse("2022-01-01");
+	LocalDate usDstStart = US.getInstance().dstStarts;
+	LocalDate usDstEnd = US.getInstance().dstEnds;
+	LocalDate dec31 = LocalDate.parse("2022-12-31");
+	
 	@Test
-	public void testDstAdjustment() {
-		int hour1 = 0, hour2 = 3;
-
-		TimeZone japan = Japan.getInstance();
+	public void testBoundaryConditions() {
+		assertEquals(
+			offset,
+			getOffset(jan1, 0)
+		);
+			
+		assertEquals(
+			offset,
+			getOffset(dec31, 0)
+		);
+	}
+	
+	@Test
+	public void testUsDstStart() {
+		assertEquals(
+			offset,
+			getOffset(usDstStart, 0)
+		);
 		
-		LocalDate date1 = LocalDate.parse("2022-01-01");
-		LocalDate date2 = US.getInstance().dstStarts;
-		LocalDate date3 = US.getInstance().dstEnds;
-		LocalDate date4 = LocalDate.parse("2022-12-31");
+		assertEquals(
+			offset,
+			getOffset(usDstStart, 1)
+		);
 		
-		int hour;
+		assertEquals(
+			offset - 1,
+			getOffset(usDstStart, 2)
+		);
 		
-		hour = japan.getLocalHour(date1, hour1);
-		assertEquals(japan.offsetFromPT, hour);
+		assertEquals(
+			offset - 1,
+			getOffset(usDstStart, 3)
+		);
+	}
+	
+	@Test
+	public void testUsDstEnd() {
+		assertEquals(
+			offset - 1,
+			getOffset(usDstEnd, 0)
+		);
 		
-		hour = japan.getLocalHour(date2, hour1);
-		assertEquals(japan.offsetFromPT, hour);
+		assertEquals(
+			offset - 1,
+			getOffset(usDstEnd, 1)
+		);
 		
-		hour = japan.getLocalHour(date2, hour2);
-		assertEquals(japan.offsetFromPT - 1, hour - hour2);
+		assertEquals(
+			offset - 1,
+			getOffset(usDstEnd, 2)
+		);
 		
-		hour = japan.getLocalHour(date3, hour1);
-		assertEquals(japan.offsetFromPT - 1, hour);
-
-		hour = japan.getLocalHour(date3, hour2);
-		assertEquals(japan.offsetFromPT, hour - hour2);
-		
-		hour = japan.getLocalHour(date4, hour1);
-		assertEquals(japan.offsetFromPT, hour);
+		assertEquals(
+			offset,
+			getOffset(usDstEnd, 3)
+		);
 	}
 	
 	@Test
@@ -55,5 +88,9 @@ public class JapanTest {
 			
 			date = date.plusDays(1);
 		}
+	}	
+	
+	private int getOffset(LocalDate date, int hour) {
+		return Japan.getInstance().getLocalHour(date, hour) - hour;
 	}
 }

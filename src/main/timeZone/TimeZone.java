@@ -80,11 +80,11 @@ public abstract class TimeZone {
 		List<Event> firstSchedule, secondSchedule;
 		List<Event> firstSpecial, secondSpecial;
 		LocalDate firstDate, secondDate;
-		int offset = 0;
+		int fudgeFactor = 0;
 		
 		// In general, one day's events straddle two different days in the master schedule
 		// Both because of a time zone offset and because midnight is included in the day at both ends
-		if (!(this instanceof US)) {
+		if (offsetFromPT > 0) {
 			firstDate = date.minus(Period.ofDays(1));
 			secondDate = date;
 			
@@ -92,7 +92,7 @@ public abstract class TimeZone {
 			firstDate = date;
 			secondDate = date.plus(Period.ofDays(1));
 			
-			offset = 24; // US is weird, don't worry about it
+			fudgeFactor = 24; // US is weird, don't worry about it
 		}
 		firstSchedule = ScheduleInfo.getMasterEventSchedule(firstDate.getDayOfWeek());
 		secondSchedule = ScheduleInfo.getMasterEventSchedule(secondDate.getDayOfWeek());
@@ -105,17 +105,17 @@ public abstract class TimeZone {
 		
 		for (Event e : firstSchedule) {
 			int hour = getLocalHour(firstDate, e.getHour());
-			if (hour + offset < 24) {
+			if (hour + fudgeFactor < 24) {
 				continue;
 			}
 			ret.add(e.cloneWithHour(hour % 24));
 		}
 		for (Event e : secondSchedule) {
 			int hour = getLocalHour(secondDate, e.getHour());
-			if (hour + offset > 24) {
+			if (hour + fudgeFactor > 24) {
 				break;
 			}
-			ret.add(e.cloneWithHour(hour + offset));
+			ret.add(e.cloneWithHour(hour + fudgeFactor));
 		}
 		return ret;
 	}

@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.LimitExceededException;
+
+import commandProcessor.CommandProcessor;
 import event.ScheduleInfo;
-import httpHelper.HttpHelper;
 import lombok.SneakyThrows;
 import timeZone.Europe;
 import timeZone.Japan;
@@ -19,16 +21,18 @@ public class Application {
 	private LocalDate endDate;
 	private TimeZone timeZone;
 	private boolean dryRun;
+	private CommandProcessor commandProcessor;
 	
 	Application(LocalDate startDate, LocalDate endDate, TimeZone timeZone, boolean dryRun) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.timeZone = timeZone;
 		this.dryRun = dryRun;
+		this.commandProcessor = new CommandProcessor(timeZone, dryRun);
 	}
 	
 	// expects these arguments:
-	// args[0] = run mode (post normal events, post special announcement tweets, or delete)
+	// args[0] = run mode (post normal events, post special announcement tweets, delete, or replace [delete + repost])
 	// args[1] = begin date for tweets (inclusive)
 	// args[2] = end date for tweets (exclusive)
 	// args[3] = region (US, EU, JP)
@@ -87,27 +91,11 @@ public class Application {
 		System.out.println("Scheduling normal tweets for time zone " + timeZone.getName() + "\n");
 		LocalDate date = startDate;
 		while (!date.equals(endDate)) {
-			String response = scheduleTweet(date, timeZone, dryRun);
+			String response = commandProcessor.scheduleTweet(timeZone.getTweetText(date), timeZone.getPostTime(date));
+			handleResponse(date, response);
 			date = date.plusDays(1);
-			if (response.contains("error") || dryRun) {
-				 // TODO error handling
-				System.out.println(date + "\n" + response + "\n");
-				if (response.contains("Rate limit")) {
-					break;
-				}
-			}
 		}
 		System.out.println("Done scheduling normal tweets for time zone " + timeZone.getName() + "\n");
-	}
-	
-	@SneakyThrows
-	private String scheduleTweet(LocalDate date, TimeZone timeZone, boolean dryRun) {
-		return HttpHelper.scheduleTweet(
-				timeZone,
-				timeZone.getTweetText(date),
-				timeZone.getPostTime(date),
-				dryRun
-		);
 	}
 	
 	private void scheduleSpecialTweets() {
@@ -115,15 +103,11 @@ public class Application {
 		Map<LocalDate, String> events = ScheduleInfo.getSpecialEventAnnouncementStrings(startDate, endDate, timeZone);
 		for (LocalDate date : events.keySet()) {
 			String tweet = events.get(date);
-			String response = HttpHelper.scheduleTweet(
-					timeZone,
+			String response = commandProcessor.scheduleTweet(
 					tweet,
-					timeZone.getPostTime(date).replace(":00:00Z", ":01:00Z"),
-					dryRun
+					timeZone.getPostTime(date).replace(":00:00Z", ":01:00Z")
 			);
-			if (response.contains("error") || dryRun) {
-				System.out.println(date + "\n" + response + "\n"); // TODO error handling
-			}
+			handleResponse(date, response);
 		}
 		System.out.println("Done scheduling special tweets for time zone " + timeZone.getName() + "\n");
 		
@@ -134,29 +118,35 @@ public class Application {
 			LocalDate date = entry.getKey();
 			String tweet = entry.getValue();
 			if (!date.isBefore(startDate) && date.isBefore(endDate)) {
-				String response = HttpHelper.scheduleTweet(
-						timeZone,
+				String response = commandProcessor.scheduleTweet(
 						tweet,
-						timeZone.getPostTime(date).replace(":00:00Z", ":02:00Z"),
-						dryRun
+						timeZone.getPostTime(date).replace(":00:00Z", ":02:00Z")
 				);
-				if (response.contains("error") || dryRun) {
-					System.out.println(date + "\n" + response + "\n"); // TODO error handling
-				}
+				handleResponse(date, response);
 			}
 		}
 		System.out.println("Done scheduling DST tweets for time zone " + timeZone.getName() + "\n");
 	}
 	
 	private void deleteTweets() {
-		List<String> tweetIds = HttpHelper.retrieveScheduledTweets(startDate, endDate, timeZone, dryRun);
+		List<String> tweetIds = commandProcessor.retrieveScheduledTweets(startDate, endDate);
 		System.out.println("Beginning to delete tweets for time zone " + timeZone.getName() + "\n");
 		for (String tweetId : tweetIds) {
-			String response = HttpHelper.deleteTweet(tweetId, timeZone, dryRun);
+			String response = commandProcessor.deleteTweet(tweetId);
 			if (response.contains("error")) {
 				System.out.println(response);
 			}
 		}
 		System.out.println("Done deleting tweets for time zone " + timeZone.getName() + "\n");
+	}
+	
+	@SneakyThrows
+	private void handleResponse(LocalDate date, String response) {
+		if (response.contains("Rate limit")) {
+			throw new LimitExceededException();
+		}
+		if (response.contains("error") || dryRun) {
+			System.out.println(date + "\n" + response + "\n");
+		}
 	}
 }
