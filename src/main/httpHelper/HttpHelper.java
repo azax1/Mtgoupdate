@@ -91,8 +91,8 @@ public class HttpHelper {
 			System.out.println(response);
 		}
 		
-		// these get printed out in a big JSON, but we don't need to bust out the big guns to parse it
-		// the response looks like this:
+		// these get printed out in a big JSON, but we don't need to bust out
+		// the big guns to parse it. The response looks like this:
 		// {"data":{"viewer":{"scheduled_tweet_list":[{"rest_id":"$NUMBER","scheduling_info":{"execute_at":$TIME, ...
 		// we can scrape the rest_id by finding each occurrence of "rest_id" and grabbing the number right after it
 		// and the scheduled time always comes exactly 34 characters later
@@ -180,6 +180,12 @@ public class HttpHelper {
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace("Challenge", "Chally");
+		}
+		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace("Challenge (32 player)", "Challenge-32");
+		}
+		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace(" (32 player)", "-32"); 
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace("Prelim", "Prlm");

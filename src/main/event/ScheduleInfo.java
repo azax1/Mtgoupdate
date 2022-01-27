@@ -94,7 +94,7 @@ public class ScheduleInfo {
 			Saturday.add(new Event(0, PIONEER));
 			Saturday.add(new Event(1, LIMITED));
 			Saturday.add(new Event(2, PAUPER, EventType.CHALLENGE));
-			Saturday.add(new Event(4, LEGACY, EventType.CHALLENGE));
+			Saturday.add(new Event(4, LEGACY, EventType.CHALLENGE_32));
 			Saturday.add(new Event(6, STANDARD, EventType.CHALLENGE));
 			Saturday.add(new Event(8, MODERN, EventType.CHALLENGE));
 			Saturday.add(new Event(10, VINTAGE, EventType.CHALLENGE));
