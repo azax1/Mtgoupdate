@@ -185,10 +185,10 @@ public class ScheduleInfo {
 					TemporalAdjuster previousFridayAdjuster = TemporalAdjusters.previousOrSame(DayOfWeek.FRIDAY);
 					LocalDate prevFriday = date.with(previousFridayAdjuster);
 					
-					TemporalAdjuster previousSundayAdjuster = TemporalAdjusters.previous(DayOfWeek.SUNDAY);
-					LocalDate prevSunday = date.with(previousSundayAdjuster);
+					TemporalAdjuster previousMondayAdjuster = TemporalAdjusters.previous(DayOfWeek.MONDAY);
+					LocalDate prevMonday = date.with(previousMondayAdjuster);
 					
-					LocalDate[] keyDates = new LocalDate[] { prevSunday, prevFriday };
+					LocalDate[] keyDates = new LocalDate[] { prevMonday, prevFriday };
 					Arrays.sort(keyDates); // maintain chronological order of keys in returned map	
 					for (LocalDate prevDate : keyDates) {
 						if (eventsByReminderDay.containsKey(prevDate)) {
