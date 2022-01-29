@@ -10,7 +10,7 @@ public enum EventType {
 			case CHALLENGE:
 				return "Challenge";
 			case CHALLENGE_32:
-				return "Challenge (32 player)";
+				return "Challenge (32-player)";
 			case LCQ:
 				return "LCQ";
 			case MOCS_OPEN:

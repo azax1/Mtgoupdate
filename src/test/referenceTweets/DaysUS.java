@@ -73,7 +73,7 @@ public enum DaysUS implements Day {
 		+ "12am Pioneer Prelim\n"
 		+ "1am Limited Prelim\n"
 		+ "2am Pauper Challenge\n"
-		+ "4am Legacy Challenge (32 player)\n"
+		+ "4am Legacy Challenge (32-player)\n"
 		+ "6am Standard Challenge\n"
 		+ "8am Modern Challenge\n"
 		+ "10am Vintage Challenge\n"

@@ -79,7 +79,7 @@ public enum DaysJP implements Day {
 			+ "5pm Pioneer Prelim\n"
 			+ "6pm Limited Prelim\n"
 			+ "7pm Pauper Challenge\n"
-			+ "9pm Legacy Challenge (32 player)\n"
+			+ "9pm Legacy Challenge (32-player)\n"
 			+ "11pm Standard Challenge"
 		),
 		

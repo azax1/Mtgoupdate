@@ -59,31 +59,36 @@ public class Application {
 			throw new UnsupportedOperationException("Unsupported application mode " + appMode);
 		}
 			
-		TimeZone timeZone;
+		TimeZone[] timeZones;
 		if ("US".equals(region)) {
-			timeZone = US.getInstance();
+			timeZones = new TimeZone[] { US.getInstance() } ;
 		} else if ("EU".equals(region)) {
-			timeZone = Europe.getInstance();
+			timeZones = new TimeZone[] { Europe.getInstance() };
 		} else if ("JP".equals(region)) {
-			timeZone = Japan.getInstance();
+			timeZones = new TimeZone[] { Japan.getInstance() };
+		} else if ("all".equals(region)) {
+			timeZones = new TimeZone[] { US.getInstance(), Europe.getInstance(), Japan.getInstance() };
 		} else {
 			throw new IllegalArgumentException("unexpected region: \"" + region + "\"");
 		}
-		Application app = new Application(startDate, endDate, timeZone, dryRun);
 		
-		if (mode == SCHEDULE_NORMAL) {
-			app.scheduleTweets();
-		} else if (mode == SCHEDULE_SPECIAL) {
-			app.scheduleSpecialTweets();
-		} else if (mode == NORMAL_AND_SPECIAL) {
-			app.scheduleTweets();
-			app.scheduleSpecialTweets();
-		} else if (mode == DELETE) {
-			app.deleteTweets();
-		} else if (mode == REPLACE) {
-			app.deleteTweets();
-			app.scheduleTweets();
-			app.scheduleSpecialTweets();
+		for (TimeZone timeZone : timeZones ) {
+			Application app = new Application(startDate, endDate, timeZone, dryRun);
+			
+			if (mode == SCHEDULE_NORMAL) {
+				app.scheduleTweets();
+			} else if (mode == SCHEDULE_SPECIAL) {
+				app.scheduleSpecialTweets();
+			} else if (mode == NORMAL_AND_SPECIAL) {
+				app.scheduleTweets();
+				app.scheduleSpecialTweets();
+			} else if (mode == DELETE) {
+				app.deleteTweets();
+			} else if (mode == REPLACE) {
+				app.deleteTweets();
+				app.scheduleTweets();
+				app.scheduleSpecialTweets();
+			}
 		}
 	}
 	
