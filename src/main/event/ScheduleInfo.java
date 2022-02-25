@@ -142,14 +142,30 @@ public class ScheduleInfo {
 		map.put(LocalDate.parse("2022-01-28"), listify(new Event(14, PAUPER, SUPER_PTQ)));
 		map.put(LocalDate.parse("2022-01-29"), listify(new Event(10, VINTAGE, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-01-30"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
+		
+		map.put(LocalDate.parse("2022-02-05"), listify(new Event(9, LEGACY, SUPER_PTQ)));
+		map.put(LocalDate.parse("2022-02-06"), listify(new Event(9, VINTAGE, SUPER_PTQ)));
+		map.put(LocalDate.parse("2022-02-12"), listify(new Event(7, PIONEER, PTQ)));
+		map.put(LocalDate.parse("2022-02-13"), listify(new Event(7, MODERN, PTQ)));
+		map.put(LocalDate.parse("2022-02-18"), listify(new Event(14, LIMITED, "NEO", SUPER_PTQ)));
 		map.put(LocalDate.parse("2022-02-19"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-02-20"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-02-21"), listify(new Event(7, LIMITED, "NEO", PTQ)));
+		map.put(LocalDate.parse("2022-02-25"), listify(new Event(23, LIMITED, "NEO", SUPER_PTQ)));
+		map.put(LocalDate.parse("2022-02-27"), listify(new Event(7, MODERN, SUPER_PTQ)));
+		
 		map.put(LocalDate.parse("2022-03-05"), listify(new Event(10, VINTAGE, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-03-06"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-04-02"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-04-03"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-04-09"), listify(new Event(10, VINTAGE, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-04-10"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-03-12"), listify(new Event(7, LIMITED, "NEO", SUPER_PTQ)));
+		map.put(LocalDate.parse("2022-03-13"), listify(new Event(7, MODERN, SUPER_PTQ)));
+		map.put(LocalDate.parse("2022-03-18"), listify(new Event(14, PIONEER, PTQ)));
+		map.put(LocalDate.parse("2022-03-19"), listify(new Event(7, PAUPER, SUPER_PTQ)));
+		map.put(LocalDate.parse("2022-03-20"), listify(new Event(5, LIMITED, "NEO", SUPER_PTQ)));
+		
+		map.put(LocalDate.parse("2022-04-09"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-04-10"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-04-16"), listify(new Event(10, VINTAGE, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-04-17"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-04-30"), listify(new Event(7, LIMITED, "TBD", MOCS_OPEN)));
 		map.put(LocalDate.parse("2022-05-01"), listify(new Event(7, LIMITED, "TBD", MOCS_OPEN)));
 		
@@ -185,7 +201,7 @@ public class ScheduleInfo {
 					TemporalAdjuster previousFridayAdjuster = TemporalAdjusters.previousOrSame(DayOfWeek.FRIDAY);
 					LocalDate prevFriday = date.with(previousFridayAdjuster);
 					
-					TemporalAdjuster previousMondayAdjuster = TemporalAdjusters.previous(DayOfWeek.MONDAY);
+					TemporalAdjuster previousMondayAdjuster = TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY);
 					LocalDate prevMonday = date.with(previousMondayAdjuster);
 					
 					LocalDate[] keyDates = new LocalDate[] { prevMonday, prevFriday };
