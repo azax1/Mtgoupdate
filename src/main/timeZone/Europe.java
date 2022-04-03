@@ -63,8 +63,8 @@ public class Europe extends TimeZone {
 		ret.put(
 			usStartDate,
 			"In the US, Daylight Saving Time starts Sunday at 11am CET (in between the Vintage and Modern Challenges)."
-			+ "Americans are turning their clocks forward one hour."
-			+ " Because of this, the MTGO schedule will be one hour earlier (in Europe time) until European Summer time begins."
+			+ " Americans are turning their clocks forward one hour."
+			+ " Because of this, the MTGO schedule will be one hour earlier for Europeans until European Summer time begins."
 		);
 
 		// there is an off-by-one issue here because the dates dstStarts/Ends are from the US's perspective,
@@ -87,7 +87,7 @@ public class Europe extends TimeZone {
 		ret.put(
 			usEndDate,
 			"In the US, Daylight Saving Time ends Sunday at 7pm CET. Americans are turning their clocks back one hour."
-			+ " Since Europe already movoed its clocks back, the schedule will be going back to normal."
+			+ " Since Europe already moved its clocks back, the schedule will be going back to normal."
 		);
 		return ret;
 	}

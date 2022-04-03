@@ -150,7 +150,7 @@ public class Application {
 		if (response.contains("Rate limit")) {
 			throw new LimitExceededException();
 		}
-		if (response.contains("error") || dryRun) {
+		if (response.toLowerCase().contains("error") || dryRun) {
 			System.out.println(date + "\n" + response + "\n");
 		}
 	}

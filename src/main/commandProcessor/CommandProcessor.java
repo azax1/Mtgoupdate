@@ -30,9 +30,12 @@ public class CommandProcessor {
 			return "can't schedule tweet in the past";
 		}
 
-		tweet = helper.condenseUnderCharacterLimit(tweet, timeZone);
+		tweet = helper.condenseUnderCharacterLimit(tweet);
 		if (tweet.length() > CommandProcessorHelper.MAX_TWEET_LENGTH) {
-			return time + " error: tweet is too long to post";
+			return time + "\n"
+						+ tweet
+						+ "\n"
+						+ "ERROR: tweet is too long to post";
 		}
 
 		String ret;

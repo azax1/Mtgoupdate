@@ -161,13 +161,19 @@ public class ScheduleInfo {
 		map.put(LocalDate.parse("2022-03-18"), listify(new Event(14, PIONEER, PTQ)));
 		map.put(LocalDate.parse("2022-03-19"), listify(new Event(7, PAUPER, SUPER_PTQ)));
 		map.put(LocalDate.parse("2022-03-20"), listify(new Event(5, LIMITED, "NEO", SUPER_PTQ)));
+		map.put(LocalDate.parse("2022-03-25"), listify(new Event(14, LIMITED, "NEO", SUPER_PTQ)));
+		map.put(LocalDate.parse("2022-03-26"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-03-27"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-03-28"), listify(new Event(10, MODERN, SUPER_PTQ)));
+		map.put(LocalDate.parse("2022-03-29"), listify(new Event(15, PIONEER, SUPER_PTQ)));
+		map.put(LocalDate.parse("2022-03-30"), listify(new Event(12, LIMITED, "NEO", SUPER_PTQ)));
+		map.put(LocalDate.parse("2022-03-31"), listify(new Event(7, LEGACY, SUPER_PTQ)));
 		
-		map.put(LocalDate.parse("2022-04-09"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-04-10"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-04-16"), listify(new Event(10, VINTAGE, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-04-17"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-04-30"), listify(new Event(7, LIMITED, "TBD", MOCS_OPEN)));
-		map.put(LocalDate.parse("2022-05-01"), listify(new Event(7, LIMITED, "TBD", MOCS_OPEN)));
+		map.put(LocalDate.parse("2022-04-01"), listify(new Event(7, MODERN, SUPER_PTQ)));
+		map.put(LocalDate.parse("2022-04-02"), listify(new Event(10, VINTAGE, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-04-03"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-04-30"), listify(new Event(7, LIMITED, "NEO", MOCS_OPEN)));
+		map.put(LocalDate.parse("2022-05-01"), listify(new Event(7, LIMITED, "NEO", MOCS_OPEN)));
 		
 		return map;
 	}
@@ -252,17 +258,21 @@ public class ScheduleInfo {
 					}
 				}
 			}
-			ret.put(date, sb.toString());
+			String tweet = sb.toString();
+			if (tweet.contains("Tuesday") || tweet.contains("Wednesday") || tweet.contains("Thursday")) {
+				tweet = tweet.replace("Special events this weekend", "Upcoming events");
+			}
+			ret.put(date, tweet);
 		}
 		return ret;
 	}
 	
 	public static LocalDate getLCQStartDate() {
-		return LocalDate.parse("2022-04-10");
+		return LocalDate.parse("2022-04-03");
 	}
 	
 	public static LocalDate getLCQEndDate() {
-		return LocalDate.parse("2022-04-13");
+		return LocalDate.parse("2022-04-06");
 	}
 	
 	private static List<Event> listify(Event... events) {

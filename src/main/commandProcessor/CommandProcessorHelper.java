@@ -89,12 +89,15 @@ public class CommandProcessorHelper {
 	/*
 	 * Abbreviations to squeeze a tweet under the character limit
 	 */
-	public String condenseUnderCharacterLimit(String tweet, TimeZone timeZone) {
+	public String condenseUnderCharacterLimit(String tweet) {
 		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace(" (" + timeZone.getName() + ")", "");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace("Tournament", "Event");
+		}
+		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace(" (replaces regular Challenge)", "");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace("Challenge", "Chally");
