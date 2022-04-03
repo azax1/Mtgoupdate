@@ -9,14 +9,20 @@ import org.junit.jupiter.api.Test;
 import referenceTweets.Day;
 import referenceTweets.DaysEU;
 
-public class EuropeTest {
-	int offset = Europe.getInstance().getOffsetFromPT();
-	LocalDate jan1 = LocalDate.parse("2022-01-01");
+public class EuropeTest extends TimeZoneTest {
+	int offset = getTimeZone().getOffsetFromPT();
+	LocalDate jan1 = LocalDate.parse(
+		Integer.toString((LocalDate.now()).getYear())
+		+ "-01-01"
+	);
 	LocalDate usDstStart = US.getInstance().dstStarts;
-	LocalDate euDstStart = Europe.getInstance().dstStarts;
-	LocalDate euDstEnd = Europe.getInstance().dstEnds;
+	LocalDate euDstStart = getTimeZone().dstStarts;
+	LocalDate euDstEnd = getTimeZone().dstEnds;
 	LocalDate usDstEnd = US.getInstance().dstEnds;
-	LocalDate dec31 = LocalDate.parse("2022-12-31");
+	LocalDate dec31 = LocalDate.parse(
+			Integer.toString((LocalDate.now()).getYear())
+			+ "-12-31"
+		);
 	
 	@Test
 	public void testBoundaryConditions() {
@@ -102,23 +108,14 @@ public class EuropeTest {
 			getOffset(usDstEnd, 3)
 		);	
 	}
-	
-	@Test
-	public void sameAsReference() {
-		LocalDate start = LocalDate.parse("2021-01-01");
-		LocalDate end = LocalDate.parse("2021-01-08");
-		LocalDate date = start;
-		
-		while (!date.equals(end)) {
-			String calculatedTweet = Europe.getInstance().getTweetText(date);
-			String referenceTweet = Day.fromDayOfWeek(date.getDayOfWeek(), DaysEU.MONDAY).text();
-			assertEquals(referenceTweet, calculatedTweet);
-			
-			date = date.plusDays(1);
-		}
+
+	@Override
+	public TimeZone getTimeZone() {
+		return Europe.getInstance();
 	}
-	
-	private int getOffset(LocalDate date, int hour) {
-		return Europe.getInstance().getLocalHour(date, hour) - hour;
+
+	@Override
+	public Day getReferenceTimeZone() {
+		return DaysEU.MONDAY;
 	}
 }

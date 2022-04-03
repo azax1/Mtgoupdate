@@ -9,12 +9,18 @@ import org.junit.jupiter.api.Test;
 import referenceTweets.Day;
 import referenceTweets.DaysJP;
 
-public class JapanTest {
-	int offset = Japan.getInstance().getOffsetFromPT();
-	LocalDate jan1 = LocalDate.parse("2022-01-01");
+public class JapanTest extends TimeZoneTest {
+	int offset = getTimeZone().getOffsetFromPT();
+	LocalDate jan1 = LocalDate.parse(
+			Integer.toString((LocalDate.now()).getYear())
+			+ "-01-01"
+		);
 	LocalDate usDstStart = US.getInstance().dstStarts;
 	LocalDate usDstEnd = US.getInstance().dstEnds;
-	LocalDate dec31 = LocalDate.parse("2022-12-31");
+	LocalDate dec31 = LocalDate.parse(
+			Integer.toString((LocalDate.now()).getYear())
+			+ "-12-31"
+		);
 	
 	@Test
 	public void testBoundaryConditions() {
@@ -74,23 +80,14 @@ public class JapanTest {
 			getOffset(usDstEnd, 3)
 		);
 	}
-	
-	@Test
-	public void sameAsReference() {
-		LocalDate start = LocalDate.parse("2021-01-01");
-		LocalDate end = LocalDate.parse("2021-01-08");
-		LocalDate date = start;
-		
-		while (!date.equals(end)) {
-			String calculatedTweet = Japan.getInstance().getTweetText(date);
-			String referenceTweet = Day.fromDayOfWeek(date.getDayOfWeek(), DaysJP.MONDAY).text();
-			assertEquals(referenceTweet, calculatedTweet);
-			
-			date = date.plusDays(1);
-		}
-	}	
-	
-	private int getOffset(LocalDate date, int hour) {
-		return Japan.getInstance().getLocalHour(date, hour) - hour;
+
+	@Override
+	public TimeZone getTimeZone() {
+		return Japan.getInstance();
+	}
+
+	@Override
+	public Day getReferenceTimeZone() {
+		return DaysJP.MONDAY;
 	}
 }
