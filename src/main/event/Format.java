@@ -9,7 +9,7 @@ public enum Format {
 	}
 	
 	public boolean isShowcaseFormat() {
-		if (this == PIONEER || this == MODERN || this == LEGACY || this == VINTAGE) {
+		if (this == PIONEER || this == MODERN || this == LEGACY || this == PAUPER) {
 			return true;
 		}
 		return false;
