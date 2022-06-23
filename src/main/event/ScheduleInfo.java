@@ -126,8 +126,9 @@ public class ScheduleInfo {
 	public static Map<LocalDate, List<Event>> getSpecialEventSchedule() {
 		Map<LocalDate, List<Event>> map = new LinkedHashMap<>(); // iteration order = insertion order
 		
-		map.put(LocalDate.parse("2022-04-30"), listify(new Event(7, LIMITED, "NEO", MOCS_OPEN)));
-		map.put(LocalDate.parse("2022-05-01"), listify(new Event(7, LIMITED, "NEO", MOCS_OPEN)));
+		map.put(LocalDate.parse("2022-04-23"), listify(new Event(7, LIMITED, "NEO", MOCS_OPEN)));
+		map.put(LocalDate.parse("2022-04-24"), listify(new Event(7, LIMITED, "NEO", MOCS_OPEN)));
+		
 		map.put(LocalDate.parse("2022-05-07"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-05-08"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-05-14"), listify(new Event(8, PAUPER, SHOWCASE_CHALLENGE)));
@@ -135,7 +136,7 @@ public class ScheduleInfo {
 
 		map.put(LocalDate.parse("2022-06-11"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-06-12"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-06-25"), listify(new Event(8, PAUPER, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-06-18"), listify(new Event(8, PAUPER, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-06-26"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
 
 		map.put(LocalDate.parse("2022-07-23"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
@@ -236,6 +237,29 @@ public class ScheduleInfo {
 			ret.put(date, tweet);
 		}
 		return ret;
+	}
+	
+	public static String getLCQAnnouncementString(TimeZone timeZone) {
+		StringBuilder ret = new StringBuilder();
+		ret.append("Upcoming MOCS LCQs (" + timeZone.getName() + "):");
+		for (LocalDate date = getLCQStartDate(); !date.isAfter(getLCQEndDate()); date = date.plusDays(1)) {
+			String[] tweet = timeZone.getTweetText(date).split("\n");
+			String dayString = "";
+			boolean used = false;
+			for (String line : tweet) {
+				if (line.contains("day")) {
+					used = false;
+					dayString = "\n\n" + line.substring(0, line.indexOf(' '));
+				} else if (line.contains("LCQ")) {
+					if (!used) {
+						used = true;
+						ret.append(dayString);
+					}
+					ret.append("\n" + line);
+				}
+			}
+		}
+		return ret.toString();
 	}
 	
 	public static LocalDate getLCQStartDate() {
