@@ -58,7 +58,7 @@ public class Event {
 		
 		ret.append(format.toString());
 		if (format == Format.LIMITED && remark != null &&
-			(eventType == PTQ || eventType == SUPER_PTQ || eventType == MOCS_OPEN)) {
+			(eventType == RCQ || eventType == SUPER_RCQ || eventType == MOCS_OPEN)) {
 			ret.append(" (" + remark + ")");
 		}
 		ret.append(" ");

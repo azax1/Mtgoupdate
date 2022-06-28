@@ -140,7 +140,7 @@ public abstract class TimeZone {
 		if (special != null) {
 			for (Event event : special) {
 				EventType type = event.getEventType();
-				if (type == PTQ || type == SUPER_PTQ || type == MOCS_OPEN) { // just insert into schedule
+				if (type == RCQ || type == SUPER_RCQ || type == MOCS_OPEN) { // just insert into schedule
 					int i;
 					for (i = 0; i < regular.size() &&
 							regular.get(i).getHour() <= event.getHour(); i++) {}

@@ -1,7 +1,7 @@
 package event;
 
 public enum EventType {
-	PRELIM, CHALLENGE, CHALLENGE_32, LCQ, MOCS_OPEN, PTQ, SHOWCASE_CHALLENGE, SUPER_PTQ;
+	PRELIM, CHALLENGE, CHALLENGE_32, LCQ, MOCS_OPEN, RCQ, SHOWCASE_CHALLENGE, SUPER_RCQ;
 	
 	public String toString() {
 		switch(this) {
@@ -15,12 +15,12 @@ public enum EventType {
 				return "LCQ";
 			case MOCS_OPEN:
 				return "MOCS Showcase Open";
-			case PTQ:
-				return "PTQ";
+			case RCQ:
+				return "RTQ";
 			case SHOWCASE_CHALLENGE:
 				return "Showcase Challenge";
-			case SUPER_PTQ:
-				return "Super PTQ";
+			case SUPER_RCQ:
+				return "Super RCQ";
 			default:
 				throw new UnsupportedOperationException("Unrecognized event type " + this.name());		
 		}

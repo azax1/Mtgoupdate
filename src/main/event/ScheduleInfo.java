@@ -138,6 +138,13 @@ public class ScheduleInfo {
 		map.put(LocalDate.parse("2022-06-12"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-06-18"), listify(new Event(8, PAUPER, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-06-26"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
+		
+		map.put(LocalDate.parse("2022-07-02"), listify(new Event(7, PIONEER, SUPER_RCQ)));
+		map.put(LocalDate.parse("2022-07-03"), listify(new Event(7, MODERN, SUPER_RCQ)));
+		map.put(LocalDate.parse("2022-07-04"), listify(new Event(6, LIMITED, "SNC", RCQ)));
+		map.put(LocalDate.parse("2022-07-08"), listify(new Event(14, LIMITED, "SNC", RCQ)));
+		map.put(LocalDate.parse("2022-07-09"), listify(new Event(1, LIMITED, "SNC", RCQ)));
+		map.put(LocalDate.parse("2022-07-10"), listify(new Event(7, LIMITED, "SNC", SUPER_RCQ)));
 
 		map.put(LocalDate.parse("2022-07-23"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
 		map.put(LocalDate.parse("2022-07-24"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
