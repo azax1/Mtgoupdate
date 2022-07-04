@@ -16,7 +16,7 @@ public enum EventType {
 			case MOCS_OPEN:
 				return "MOCS Showcase Open";
 			case RCQ:
-				return "RTQ";
+				return "RCQ";
 			case SHOWCASE_CHALLENGE:
 				return "Showcase Challenge";
 			case SUPER_RCQ:
