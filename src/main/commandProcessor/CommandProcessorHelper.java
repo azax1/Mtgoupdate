@@ -109,13 +109,19 @@ public class CommandProcessorHelper {
 			tweet = tweet.replace(" (32-player)", "-32");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace("Double Masters 2022", "Double Masters");
+		}
+		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace("Double Masters", "2X2");
+		}
+		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace(" Event", "");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace("Prelim", "Prlm");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
-			tweet = tweet.replace("Super PTQ", "SPTQ");
+			tweet = tweet.replace("Super RCQ", "SRCQ");
 		}
 		return tweet;
 	}

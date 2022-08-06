@@ -94,9 +94,11 @@ public class Application {
 				);
 			}
 		} else {
-			FileWriter fw = new FileWriter(new File(PATH_TO_SAFETY_ON_TXT), false);
-			fw.write("true");
-			fw.close();
+			if (!dryRun) {
+				FileWriter fw = new FileWriter(new File(PATH_TO_SAFETY_ON_TXT), false);
+				fw.write("true");
+				fw.close();
+			}
 		}
 		for (TimeZone timeZone : timeZones ) {
 			Application app = new Application(startDate, endDate, timeZone, dryRun);

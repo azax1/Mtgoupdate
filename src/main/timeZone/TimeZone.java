@@ -94,8 +94,8 @@ public abstract class TimeZone {
 			
 			fudgeFactor = 24; // US is weird, don't worry about it
 		}
-		firstSchedule = ScheduleInfo.getMasterEventSchedule(firstDate.getDayOfWeek());
-		secondSchedule = ScheduleInfo.getMasterEventSchedule(secondDate.getDayOfWeek());
+		firstSchedule = ScheduleInfo.getMasterEventSchedule(firstDate);
+		secondSchedule = ScheduleInfo.getMasterEventSchedule(secondDate);
 		
 		firstSpecial = specialSchedule.get(firstDate);
 		secondSpecial = specialSchedule.get(secondDate);

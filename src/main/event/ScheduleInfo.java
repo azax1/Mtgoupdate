@@ -2,6 +2,7 @@ package event;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.Period;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalAdjuster;
@@ -20,7 +21,8 @@ import static event.Format.*;
 import static event.EventType.*;
 
 public class ScheduleInfo {
-	public static List<Event> getMasterEventSchedule(DayOfWeek day) {
+	public static List<Event> getMasterEventSchedule(LocalDate date) {
+		DayOfWeek day = date.getDayOfWeek();
 		if (day == DayOfWeek.MONDAY) {
 			List<Event> Monday = new ArrayList<Event>();
 			
@@ -92,13 +94,25 @@ public class ScheduleInfo {
 			List<Event> Saturday = new ArrayList<Event>();
 			
 			Saturday.add(new Event(0, PIONEER));
-			Saturday.add(new Event(1, LIMITED));
+			
+			if (date.getMonth() == Month.AUGUST && date.getDayOfMonth() != 20) {
+				Saturday.add(new Event(1, LIMITED, "Double Masters 2022", EventType.DUELS));
+			} else {
+				Saturday.add(new Event(1, LIMITED));
+			}
+			
 			Saturday.add(new Event(2, PAUPER, EventType.CHALLENGE));
 			Saturday.add(new Event(4, LEGACY, EventType.CHALLENGE_32));
 			Saturday.add(new Event(6, STANDARD, EventType.CHALLENGE));
 			Saturday.add(new Event(8, MODERN, EventType.CHALLENGE));
 			Saturday.add(new Event(10, VINTAGE, EventType.CHALLENGE));
-			Saturday.add(new Event(12, LIMITED));
+			
+			if (date.getMonth() == Month.AUGUST) {
+				Saturday.add(new Event(12, LIMITED, "Double Masters 2022", EventType.DUELS));
+			} else {
+				Saturday.add(new Event(12, LIMITED));
+			}
+			
 			Saturday.add(new Event(14, PIONEER, EventType.CHALLENGE));
 			Saturday.add(new Event(16, LIMITED));
 			
@@ -107,11 +121,23 @@ public class ScheduleInfo {
 			List<Event> Sunday = new ArrayList<Event>();
 			
 			Sunday.add(new Event(0, VINTAGE, EventType.CHALLENGE));
+			
+			// I have no idea if there is going to be a prelim in this slot on August 21
+			if (date.getMonth() == Month.AUGUST && date.getDayOfMonth() != 21) {
+				Sunday.add(new Event(1, LIMITED, "Double Masters 2022", EventType.DUELS));
+			}
+			
 			Sunday.add(new Event(4, MODERN, EventType.CHALLENGE));
 			Sunday.add(new Event(6, PIONEER, EventType.CHALLENGE));
 			Sunday.add(new Event(8, LEGACY, EventType.CHALLENGE));
 			Sunday.add(new Event(10, PAUPER, EventType.CHALLENGE));
-			Sunday.add(new Event(12, LIMITED));
+			
+			if (date.getMonth() == Month.AUGUST) {
+				Sunday.add(new Event(12, LIMITED, "Double Masters 2022", EventType.DUELS));
+			} else {
+				Sunday.add(new Event(12, LIMITED));
+			}
+			
 			Sunday.add(new Event(14, STANDARD, EventType.CHALLENGE));
 			Sunday.add(new Event(15, VINTAGE));
 			Sunday.add(new Event(16, LIMITED));
@@ -125,35 +151,35 @@ public class ScheduleInfo {
 	 */
 	public static Map<LocalDate, List<Event>> getSpecialEventSchedule() {
 		Map<LocalDate, List<Event>> map = new LinkedHashMap<>(); // iteration order = insertion order
-
-		map.put(LocalDate.parse("2022-08-20"), listify(new Event(7, LIMITED, "2XM", MOCS_OPEN)));
-		map.put(LocalDate.parse("2022-08-21"), listify(new Event(7, LIMITED, "2XM", MOCS_OPEN)));
 		
-		map.put(LocalDate.parse("2022-08-27"), listify(new Event(7, PIONEER, SUPER_RCQ)));
-		map.put(LocalDate.parse("2022-08-28"), listify(new Event(1, MODERN, RCQ)));
+		addAll(map, LocalDate.parse("2022-08-20"), new Event(7, LIMITED, "2XM", MOCS_OPEN));
+		addAll(map, LocalDate.parse("2022-08-21"), new Event(7, LIMITED, "2XM", MOCS_OPEN));
 		
-		map.put(LocalDate.parse("2022-09-03"), listify(new Event(7, LEGACY, SUPER_RCQ)));
-		map.put(LocalDate.parse("2022-09-04"), listify(new Event(7, VINTAGE, SUPER_RCQ)));
-		map.put(LocalDate.parse("2022-09-10"), listify(new Event(7, LIMITED, "DMU", SUPER_RCQ)));
-		map.put(LocalDate.parse("2022-09-11"), listify(new Event(7, LIMITED, "DMU", SUPER_RCQ)));
-
-		map.put(LocalDate.parse("2022-09-17"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-09-18"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-09-24"), listify(new Event(8, STANDARD, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-09-25"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
-
-		map.put(LocalDate.parse("2022-10-15"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-10-16"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-10-22"), listify(new Event(8, STANDARD, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-10-23"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
-
-		map.put(LocalDate.parse("2022-11-19"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-11-20"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-11-26"), listify(new Event(8, STANDARD, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-11-27"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
+		addAll(map, LocalDate.parse("2022-08-27"), new Event(7, PIONEER, SUPER_RCQ));
+		addAll(map, LocalDate.parse("2022-08-28"), new Event(1, MODERN, RCQ));
 		
-		map.put(LocalDate.parse("2022-12-17"), listify(new Event(7, LIMITED, "BRO", MOCS_OPEN)));
-		map.put(LocalDate.parse("2022-12-18"), listify(new Event(7, LIMITED, "BRO", MOCS_OPEN)));
+		addAll(map, LocalDate.parse("2022-09-03"), new Event(7, LEGACY, SUPER_RCQ));
+		addAll(map, LocalDate.parse("2022-09-04"), new Event(7, VINTAGE, SUPER_RCQ));
+		addAll(map, LocalDate.parse("2022-09-10"), new Event(7, LIMITED, "DMU", SUPER_RCQ));
+		addAll(map, LocalDate.parse("2022-09-11"), new Event(7, LIMITED, "DMU", SUPER_RCQ));
+
+		addAll(map, LocalDate.parse("2022-09-17"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2022-09-18"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2022-09-24"), new Event(8, STANDARD, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2022-09-25"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
+
+		addAll(map, LocalDate.parse("2022-10-15"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2022-10-16"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2022-10-22"), new Event(8, STANDARD, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2022-10-23"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
+
+		addAll(map, LocalDate.parse("2022-11-19"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2022-11-20"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2022-11-26"), new Event(8, STANDARD, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2022-11-27"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
+		
+		addAll(map, LocalDate.parse("2022-12-17"), new Event(7, LIMITED, "BRO", MOCS_OPEN));
+		addAll(map, LocalDate.parse("2022-12-18"), new Event(7, LIMITED, "BRO", MOCS_OPEN));
 		
 		return map;
 	}
@@ -278,11 +304,11 @@ public class ScheduleInfo {
 		return LocalDate.parse("2022-11-30");
 	}
 	
-	private static List<Event> listify(Event... events) {
-		List<Event> ret = new ArrayList<>();
+	private static void addAll(Map<LocalDate, List<Event>> map, LocalDate date, Event... events) {
+		List<Event> list = new ArrayList<>();
 		for (int i = 0; i < events.length; i++) {
-			ret.add(events[i]);
+			list.add(events[i]);
 		}
-		return ret;
+		map.put(date, list);
 	}
 }

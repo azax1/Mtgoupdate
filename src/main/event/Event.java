@@ -56,11 +56,16 @@ public class Event {
 			}
 		}
 		
-		ret.append(format.toString());
-		if (format == Format.LIMITED && remark != null &&
-			(eventType == RCQ || eventType == SUPER_RCQ || eventType == MOCS_OPEN)) {
-			ret.append(" (" + remark + ")");
+		if (format == Format.LIMITED && remark != null) {
+			if (eventType == RCQ || eventType == SUPER_RCQ || eventType == MOCS_OPEN) {
+				ret.append(format.toString() + " (" + remark + ")");
+			} else if (eventType == DUELS) {
+				ret.append(remark);
+			}
+		} else {
+			ret.append(format.toString());
 		}
+		
 		ret.append(" ");
 		ret.append(eventType.toString());
 		
