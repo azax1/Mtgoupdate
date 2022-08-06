@@ -125,34 +125,35 @@ public class ScheduleInfo {
 	 */
 	public static Map<LocalDate, List<Event>> getSpecialEventSchedule() {
 		Map<LocalDate, List<Event>> map = new LinkedHashMap<>(); // iteration order = insertion order
-		
-		map.put(LocalDate.parse("2022-04-23"), listify(new Event(7, LIMITED, "NEO", MOCS_OPEN)));
-		map.put(LocalDate.parse("2022-04-24"), listify(new Event(7, LIMITED, "NEO", MOCS_OPEN)));
-		
-		map.put(LocalDate.parse("2022-05-07"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-05-08"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-05-14"), listify(new Event(8, PAUPER, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-05-15"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
 
-		map.put(LocalDate.parse("2022-06-11"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-06-12"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-06-18"), listify(new Event(8, PAUPER, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-06-26"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-08-20"), listify(new Event(7, LIMITED, "2XM", MOCS_OPEN)));
+		map.put(LocalDate.parse("2022-08-21"), listify(new Event(7, LIMITED, "2XM", MOCS_OPEN)));
 		
-		map.put(LocalDate.parse("2022-07-02"), listify(new Event(7, PIONEER, SUPER_RCQ)));
-		map.put(LocalDate.parse("2022-07-03"), listify(new Event(7, MODERN, SUPER_RCQ)));
-		map.put(LocalDate.parse("2022-07-04"), listify(new Event(6, LIMITED, "SNC", RCQ)));
-		map.put(LocalDate.parse("2022-07-08"), listify(new Event(14, LIMITED, "SNC", RCQ)));
-		map.put(LocalDate.parse("2022-07-09"), listify(new Event(1, LIMITED, "SNC", RCQ)));
-		map.put(LocalDate.parse("2022-07-10"), listify(new Event(7, LIMITED, "SNC", SUPER_RCQ)));
+		map.put(LocalDate.parse("2022-08-27"), listify(new Event(7, PIONEER, SUPER_RCQ)));
+		map.put(LocalDate.parse("2022-08-28"), listify(new Event(1, MODERN, RCQ)));
+		
+		map.put(LocalDate.parse("2022-09-03"), listify(new Event(7, LEGACY, SUPER_RCQ)));
+		map.put(LocalDate.parse("2022-09-04"), listify(new Event(7, VINTAGE, SUPER_RCQ)));
+		map.put(LocalDate.parse("2022-09-10"), listify(new Event(7, LIMITED, "DMU", SUPER_RCQ)));
+		map.put(LocalDate.parse("2022-09-11"), listify(new Event(7, LIMITED, "DMU", SUPER_RCQ)));
 
-		map.put(LocalDate.parse("2022-07-23"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-07-24"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-07-30"), listify(new Event(8, PAUPER, SHOWCASE_CHALLENGE)));
-		map.put(LocalDate.parse("2022-07-31"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-09-17"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-09-18"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-09-24"), listify(new Event(8, STANDARD, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-09-25"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
 
-		map.put(LocalDate.parse("2022-08-20"), listify(new Event(7, LIMITED, "TBD", MOCS_OPEN)));
-		map.put(LocalDate.parse("2022-08-21"), listify(new Event(7, LIMITED, "TBD", MOCS_OPEN)));
+		map.put(LocalDate.parse("2022-10-15"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-10-16"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-10-22"), listify(new Event(8, STANDARD, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-10-23"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
+
+		map.put(LocalDate.parse("2022-11-19"), listify(new Event(8, MODERN, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-11-20"), listify(new Event(6, PIONEER, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-11-26"), listify(new Event(8, STANDARD, SHOWCASE_CHALLENGE)));
+		map.put(LocalDate.parse("2022-11-27"), listify(new Event(8, LEGACY, SHOWCASE_CHALLENGE)));
+		
+		map.put(LocalDate.parse("2022-12-17"), listify(new Event(7, LIMITED, "BRO", MOCS_OPEN)));
+		map.put(LocalDate.parse("2022-12-18"), listify(new Event(7, LIMITED, "BRO", MOCS_OPEN)));
 		
 		return map;
 	}
@@ -270,11 +271,11 @@ public class ScheduleInfo {
 	}
 	
 	public static LocalDate getLCQStartDate() {
-		return LocalDate.parse("2022-07-31");
+		return LocalDate.parse("2022-11-27");
 	}
 	
 	public static LocalDate getLCQEndDate() {
-		return LocalDate.parse("2022-08-03");
+		return LocalDate.parse("2022-11-30");
 	}
 	
 	private static List<Event> listify(Event... events) {
