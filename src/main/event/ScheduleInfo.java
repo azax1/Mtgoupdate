@@ -145,8 +145,8 @@ public class ScheduleInfo {
 		addAll(map, LocalDate.parse("2022-09-25"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
 
 		addAll(map, LocalDate.parse("2022-09-30"), new Event(14, PIONEER, RCQ));
-		addAll(map, LocalDate.parse("2022-09-30"), new Event(7, PAUPER, SUPER_RCQ));
-		addAll(map, LocalDate.parse("2022-09-30"), new Event(7, PIONEER, SUPER_RCQ));
+		addAll(map, LocalDate.parse("2022-10-01"), new Event(7, PAUPER, SUPER_RCQ));
+		addAll(map, LocalDate.parse("2022-10-02"), new Event(7, PIONEER, SUPER_RCQ));
 
 		addAll(map, LocalDate.parse("2022-10-15"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2022-10-16"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
