@@ -2,7 +2,6 @@ package event;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.Period;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalAdjuster;
@@ -94,25 +93,13 @@ public class ScheduleInfo {
 			List<Event> Saturday = new ArrayList<Event>();
 			
 			Saturday.add(new Event(0, PIONEER));
-			
-			if (date.getMonth() == Month.AUGUST && date.getDayOfMonth() != 20) {
-				Saturday.add(new Event(1, LIMITED, "Double Masters 2022", EventType.DUELS));
-			} else {
-				Saturday.add(new Event(1, LIMITED));
-			}
-			
+			Saturday.add(new Event(1, LIMITED, EventType.CHALLENGE_32));
 			Saturday.add(new Event(2, PAUPER, EventType.CHALLENGE));
 			Saturday.add(new Event(4, LEGACY, EventType.CHALLENGE_32));
 			Saturday.add(new Event(6, STANDARD, EventType.CHALLENGE));
 			Saturday.add(new Event(8, MODERN, EventType.CHALLENGE));
 			Saturday.add(new Event(10, VINTAGE, EventType.CHALLENGE));
-			
-			if (date.getMonth() == Month.AUGUST) {
-				Saturday.add(new Event(12, LIMITED, "Double Masters 2022", EventType.DUELS));
-			} else {
-				Saturday.add(new Event(12, LIMITED));
-			}
-			
+			Saturday.add(new Event(12, LIMITED, EventType.CHALLENGE));
 			Saturday.add(new Event(14, PIONEER, EventType.CHALLENGE));
 			Saturday.add(new Event(16, LIMITED));
 			
@@ -121,23 +108,12 @@ public class ScheduleInfo {
 			List<Event> Sunday = new ArrayList<Event>();
 			
 			Sunday.add(new Event(0, VINTAGE, EventType.CHALLENGE));
-			
-			// I have no idea if there is going to be a prelim in this slot on August 21
-			if (date.getMonth() == Month.AUGUST && date.getDayOfMonth() != 21) {
-				Sunday.add(new Event(1, LIMITED, "Double Masters 2022", EventType.DUELS));
-			}
-			
+			Sunday.add(new Event(1, LIMITED, EventType.CHALLENGE_32));
 			Sunday.add(new Event(4, MODERN, EventType.CHALLENGE));
 			Sunday.add(new Event(6, PIONEER, EventType.CHALLENGE));
 			Sunday.add(new Event(8, LEGACY, EventType.CHALLENGE));
 			Sunday.add(new Event(10, PAUPER, EventType.CHALLENGE));
-			
-			if (date.getMonth() == Month.AUGUST) {
-				Sunday.add(new Event(12, LIMITED, "Double Masters 2022", EventType.DUELS));
-			} else {
-				Sunday.add(new Event(12, LIMITED));
-			}
-			
+			Sunday.add(new Event(12, LIMITED, EventType.CHALLENGE));
 			Sunday.add(new Event(14, STANDARD, EventType.CHALLENGE));
 			Sunday.add(new Event(15, VINTAGE));
 			Sunday.add(new Event(16, LIMITED));
@@ -165,17 +141,21 @@ public class ScheduleInfo {
 
 		addAll(map, LocalDate.parse("2022-09-17"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2022-09-18"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
-		addAll(map, LocalDate.parse("2022-09-24"), new Event(8, STANDARD, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2022-09-24"), new Event(6, STANDARD, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2022-09-25"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
+
+		addAll(map, LocalDate.parse("2022-09-30"), new Event(14, PIONEER, RCQ));
+		addAll(map, LocalDate.parse("2022-09-30"), new Event(7, PAUPER, SUPER_RCQ));
+		addAll(map, LocalDate.parse("2022-09-30"), new Event(7, PIONEER, SUPER_RCQ));
 
 		addAll(map, LocalDate.parse("2022-10-15"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2022-10-16"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
-		addAll(map, LocalDate.parse("2022-10-22"), new Event(8, STANDARD, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2022-10-22"), new Event(6, STANDARD, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2022-10-23"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
 
 		addAll(map, LocalDate.parse("2022-11-19"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2022-11-20"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
-		addAll(map, LocalDate.parse("2022-11-26"), new Event(8, STANDARD, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2022-11-26"), new Event(6, STANDARD, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2022-11-27"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
 		
 		addAll(map, LocalDate.parse("2022-12-17"), new Event(7, LIMITED, "BRO", MOCS_OPEN));

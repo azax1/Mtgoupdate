@@ -59,8 +59,6 @@ public class Event {
 		if (format == Format.LIMITED && remark != null) {
 			if (eventType == RCQ || eventType == SUPER_RCQ || eventType == MOCS_OPEN) {
 				ret.append(format.toString() + " (" + remark + ")");
-			} else if (eventType == DUELS) {
-				ret.append(remark);
 			}
 		} else {
 			ret.append(format.toString());

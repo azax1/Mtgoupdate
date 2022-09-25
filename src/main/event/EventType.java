@@ -1,7 +1,7 @@
 package event;
 
 public enum EventType {
-	PRELIM, CHALLENGE, CHALLENGE_32, DUELS, LCQ, MOCS_OPEN, RCQ, SHOWCASE_CHALLENGE, SUPER_RCQ;
+	PRELIM, CHALLENGE, CHALLENGE_32, LCQ, MOCS_OPEN, RCQ, SHOWCASE_CHALLENGE, SUPER_RCQ;
 	
 	public String toString() {
 		switch(this) {
@@ -11,8 +11,6 @@ public enum EventType {
 				return "Challenge";
 			case CHALLENGE_32:
 				return "Challenge (32-player)";
-			case DUELS:
-				return "Duels";
 			case LCQ:
 				return "LCQ";
 			case MOCS_OPEN:
