@@ -147,11 +147,18 @@ public class ScheduleInfo {
 		addAll(map, LocalDate.parse("2022-09-30"), new Event(14, PIONEER, RCQ));
 		addAll(map, LocalDate.parse("2022-10-01"), new Event(7, PAUPER, SUPER_RCQ));
 		addAll(map, LocalDate.parse("2022-10-02"), new Event(7, PIONEER, SUPER_RCQ));
+		addAll(map, LocalDate.parse("2022-10-08"), new Event(7, LIMITED, "DMU" ,SUPER_RCQ));
+		addAll(map, LocalDate.parse("2022-10-09"), new Event(7, LIMITED, "DMU" ,SUPER_RCQ));
 
 		addAll(map, LocalDate.parse("2022-10-15"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2022-10-16"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2022-10-22"), new Event(6, STANDARD, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2022-10-23"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2022-10-29"), new Event(0, STANDARD, RCQ), new Event(11, STANDARD, RCQ));
+		addAll(map, LocalDate.parse("2022-10-30"), new Event(1, LIMITED, "DMU", RCQ), new Event(12, LIMITED, "DMU", RCQ));
+		
+		addAll(map, LocalDate.parse("2022-11-12"), new Event(7, PAUPER, RCQ));
+		addAll(map, LocalDate.parse("2022-11-13"), new Event(7, VINTAGE, RCQ));
 
 		addAll(map, LocalDate.parse("2022-11-19"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2022-11-20"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
