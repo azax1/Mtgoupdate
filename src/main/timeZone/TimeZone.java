@@ -59,7 +59,6 @@ public abstract class TimeZone {
 			offsetFromPT +
 			getExtraOffset(date, hour) -
 			US.getInstance().getExtraOffset(date, hour);
-
 	}
 	
 	/*
