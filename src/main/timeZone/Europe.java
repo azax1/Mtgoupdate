@@ -11,8 +11,8 @@ public class Europe extends TimeZone {
 	
 	private Europe() {
 		this.offsetFromPT = 9;
-		this.dstStarts = LocalDate.parse("2022-03-26");
-		this.dstEnds = LocalDate.parse("2022-10-29");
+		this.dstStarts = LocalDate.parse("2023-03-26");
+		this.dstEnds = LocalDate.parse("2023-10-29");
 		this.name = "CET";
 	}
 	
