@@ -31,6 +31,7 @@ public class ScheduleInfo {
 			Monday.add(new Event(9, LIMITED));
 			Monday.add(new Event(11, LEGACY));
 			Monday.add(new Event(15, MODERN));
+			Monday.add(new Event(17, VINTAGE));
 			Monday.add(new Event(18, LIMITED));
 			Monday.add(new Event(19, PIONEER));
 			
@@ -57,6 +58,7 @@ public class ScheduleInfo {
 			Wednesday.add(new Event(11, PIONEER));
 			Wednesday.add(new Event(15, MODERN));
 			Wednesday.add(new Event(16, LIMITED));
+			Wednesday.add(new Event(18, VINTAGE));
 			Wednesday.add(new Event(21, LIMITED));
 			
 			return Wednesday;
@@ -84,8 +86,8 @@ public class ScheduleInfo {
 			Friday.add(new Event(10, LIMITED));
 			Friday.add(new Event(11, VINTAGE));
 			Friday.add(new Event(15, PIONEER));
-			Friday.add(new Event(18, LIMITED));
-			Friday.add(new Event(19, MODERN));
+			Friday.add(new Event(16, LIMITED, EventType.CHALLENGE_32));
+			Friday.add(new Event(18, MODERN, EventType.CHALLENGE_32));
 			
 			return Friday;
 		} else if (day == DayOfWeek.SATURDAY) {
@@ -101,6 +103,7 @@ public class ScheduleInfo {
 			Saturday.add(new Event(12, LIMITED, EventType.CHALLENGE));
 			Saturday.add(new Event(14, PIONEER, EventType.CHALLENGE));
 			Saturday.add(new Event(16, LIMITED));
+			Saturday.add(new Event(18, MODERN, EventType.CHALLENGE_32));
 			
 			return Saturday;
 		} else {
