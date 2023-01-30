@@ -155,12 +155,12 @@ public class ScheduleInfo {
 		addAll(map, LocalDate.parse("2023-01-29"), new Event(7, VINTAGE, SUPER_RCQ));
 		
 		addAll(map, LocalDate.parse("2023-02-04"), new Event(7, LEGACY, RCQ));
-		addAll(map, LocalDate.parse("2023-02-05"), new Event(7, STANDARD, SUPER_RCQ));
-		addAll(map, LocalDate.parse("2023-02-10"), new Event(14, LIMITED, "ONE", RCQ));
+		addAll(map, LocalDate.parse("2023-02-05"), new Event(7, MODERN, SUPER_RCQ));
 
 		addAll(map, LocalDate.parse("2023-02-11"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2023-02-12"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
-
+		
+		addAll(map, LocalDate.parse("2023-02-17"), new Event(14, LIMITED, "ONE", RCQ));
 		addAll(map, LocalDate.parse("2023-02-18"), new Event(7, PIONEER, SUPER_RCQ));
 		addAll(map, LocalDate.parse("2023-02-19"), new Event(7, LIMITED, "ONE", SUPER_RCQ));
 		addAll(map, LocalDate.parse("2023-02-20"), new Event(7, LIMITED, "ONE", RCQ));
