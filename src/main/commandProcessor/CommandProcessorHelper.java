@@ -120,6 +120,9 @@ public class CommandProcessorHelper {
 		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace("Super RCQ", "SRCQ");
 		}
+		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace("Showcase ", "");
+		}
 		return tweet;
 	}
 

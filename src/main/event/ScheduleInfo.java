@@ -87,7 +87,7 @@ public class ScheduleInfo {
 			Friday.add(new Event(11, VINTAGE));
 			Friday.add(new Event(15, PIONEER));
 			Friday.add(new Event(16, LIMITED, EventType.CHALLENGE_32));
-			Friday.add(new Event(18, MODERN, EventType.CHALLENGE_32));
+			Friday.add(new Event(18, MODERN, EventType.CHALLENGE));
 			
 			return Friday;
 		} else if (day == DayOfWeek.SATURDAY) {
@@ -103,7 +103,7 @@ public class ScheduleInfo {
 			Saturday.add(new Event(12, LIMITED, EventType.CHALLENGE));
 			Saturday.add(new Event(14, PIONEER, EventType.CHALLENGE));
 			Saturday.add(new Event(16, LIMITED));
-			Saturday.add(new Event(18, MODERN, EventType.CHALLENGE_32));
+			Saturday.add(new Event(18, MODERN, EventType.CHALLENGE));
 			
 			return Saturday;
 		} else {
