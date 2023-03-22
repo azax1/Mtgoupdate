@@ -9,6 +9,6 @@ public enum Format {
 	}
 	
 	public boolean isShowcaseFormat() {
-		return this == PIONEER || this == MODERN || this == LEGACY || this == VINTAGE;
+		return this == PIONEER || this == MODERN || this == LEGACY || this == PAUPER;
 	}
 }
