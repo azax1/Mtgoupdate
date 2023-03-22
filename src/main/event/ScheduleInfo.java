@@ -272,7 +272,7 @@ public class ScheduleInfo {
 				if (line.contains("day")) {
 					used = false;
 					dayString = "\n\n" + line.substring(0, line.indexOf(' '));
-				} else if (line.contains("LCQ") && !(line.contains("Midnight") || date.getDayOfWeek() == DayOfWeek.WEDNESDAY)) {
+				} else if (line.contains("LCQ") && !(line.contains("Midnight") && date.getDayOfWeek() != DayOfWeek.WEDNESDAY)) {
 					if (!used) {
 						used = true;
 						ret.append(dayString);
