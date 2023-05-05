@@ -79,10 +79,10 @@ public class ScheduleInfo {
 		} else if (day == DayOfWeek.FRIDAY) {
 			List<Event> Friday = new ArrayList<Event>();
 			
-			Friday.add(new Event(0, LEGACY));
+			Friday.add(new Event(0, LIMITED));
 			Friday.add(new Event(2, LIMITED));
 			Friday.add(new Event(4, MODERN));
-			Friday.add(new Event(7, LIMITED));
+			Friday.add(new Event(7, LEGACY));
 			Friday.add(new Event(10, LIMITED));
 			Friday.add(new Event(11, VINTAGE));
 			Friday.add(new Event(15, PIONEER));
