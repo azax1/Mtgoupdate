@@ -116,7 +116,7 @@ public class ScheduleInfo {
 			Sunday.add(new Event(8, LEGACY, EventType.CHALLENGE));
 			Sunday.add(new Event(10, PAUPER, EventType.CHALLENGE));
 			Sunday.add(new Event(12, LIMITED, EventType.CHALLENGE));
-			Sunday.add(new Event(14, STANDARD, EventType.CHALLENGE));
+			Sunday.add(new Event(14, STANDARD, EventType.CHALLENGE_32));
 			Sunday.add(new Event(16, LIMITED));
 			
 			return Sunday;
