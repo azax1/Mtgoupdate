@@ -55,7 +55,7 @@ public class ScheduleInfo {
 			Wednesday.add(new Event(0, LIMITED));
 			Wednesday.add(new Event(3, LEGACY));
 			Wednesday.add(new Event(7, LIMITED));
-			Wednesday.add(new Event(11, PIONEER));
+			Wednesday.add(new Event(13, PIONEER));
 			Wednesday.add(new Event(15, MODERN));
 			Wednesday.add(new Event(16, LIMITED));
 			Wednesday.add(new Event(18, VINTAGE));
