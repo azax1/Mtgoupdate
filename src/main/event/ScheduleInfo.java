@@ -168,6 +168,9 @@ public class ScheduleInfo {
 		
 		addAll(map, LocalDate.parse("2023-07-01"), new Event(8, PAUPER, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2023-07-02"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
+
+		addAll(map, LocalDate.parse("2023-07-22"), new Event(7, LIMITED, "LTR", MOCS_OPEN));
+		addAll(map, LocalDate.parse("2023-07-23"), new Event(7, LIMITED, "LTR", MOCS_OPEN));
 		
 		return map;
 	}

@@ -118,6 +118,12 @@ public class CommandProcessorHelper {
 			tweet = tweet.replace("Prelim", "Prlm");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace(" Events", " Sched");
+		}
+		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace("Midnight", "Midnite");
+		}
+		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace("Super RCQ", "SRCQ");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
