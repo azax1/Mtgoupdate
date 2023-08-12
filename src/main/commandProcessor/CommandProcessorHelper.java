@@ -121,13 +121,19 @@ public class CommandProcessorHelper {
 			tweet = tweet.replace(" Events", " Sched");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
-			tweet = tweet.replace("Midnight", "Midnite");
+			tweet = tweet.replace("Midnight ", "Midnite ");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace("Super RCQ", "SRCQ");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
-			tweet = tweet.replace("Showcase ", "");
+			tweet = tweet.replace("Showcase Open", "Open");
+		}
+		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace("Upcoming ", "");
+		}
+		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace("MOCS LCQ", "LCQ");
 		}
 		return tweet;
 	}
