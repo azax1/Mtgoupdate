@@ -27,6 +27,7 @@ public class ScheduleInfo {
 			
 			Monday.add(new Event(0, PIONEER));
 			Monday.add(new Event(3, LIMITED));
+			Monday.add(new Event(4, STANDARD));
 			Monday.add(new Event(7, MODERN));
 			Monday.add(new Event(9, LIMITED));
 			Monday.add(new Event(11, LEGACY));
@@ -34,6 +35,7 @@ public class ScheduleInfo {
 			Monday.add(new Event(17, VINTAGE));
 			Monday.add(new Event(18, LIMITED));
 			Monday.add(new Event(19, PIONEER));
+			Monday.add(new Event(21, STANDARD));
 			
 			return Monday;
 		} else if (day == DayOfWeek.TUESDAY) {
@@ -46,6 +48,7 @@ public class ScheduleInfo {
 			Tuesday.add(new Event(11, MODERN));
 			Tuesday.add(new Event(15, PIONEER));
 			Tuesday.add(new Event(16, LIMITED));
+			Tuesday.add(new Event(17, STANDARD));
 			Tuesday.add(new Event(19, LEGACY));
 			
 			return Tuesday;
@@ -55,6 +58,7 @@ public class ScheduleInfo {
 			Wednesday.add(new Event(0, LIMITED));
 			Wednesday.add(new Event(3, LEGACY));
 			Wednesday.add(new Event(7, LIMITED));
+			Wednesday.add(new Event(9, STANDARD));
 			Wednesday.add(new Event(13, PIONEER));
 			Wednesday.add(new Event(15, MODERN));
 			Wednesday.add(new Event(16, LIMITED));
@@ -72,20 +76,21 @@ public class ScheduleInfo {
 			Thursday.add(new Event(12, LIMITED));
 			Thursday.add(new Event(15, LEGACY));
 			Thursday.add(new Event(16, LIMITED));
+			Thursday.add(new Event(17, STANDARD));
 			Thursday.add(new Event(19, MODERN));
 			Thursday.add(new Event(21, PIONEER));
 			
 			return Thursday;
 		} else if (day == DayOfWeek.FRIDAY) {
 			List<Event> Friday = new ArrayList<Event>();
-			
+
 			Friday.add(new Event(0, LIMITED));
 			Friday.add(new Event(2, LIMITED));
 			Friday.add(new Event(4, MODERN));
 			Friday.add(new Event(7, LEGACY));
 			Friday.add(new Event(10, LIMITED));
 			Friday.add(new Event(11, VINTAGE));
-			Friday.add(new Event(15, PIONEER));
+			Friday.add(new Event(14, PIONEER, EventType.CHALLENGE_32));
 			Friday.add(new Event(16, LIMITED, EventType.CHALLENGE_32));
 			Friday.add(new Event(18, MODERN, EventType.CHALLENGE));
 			
@@ -98,10 +103,10 @@ public class ScheduleInfo {
 			Saturday.add(new Event(2, PAUPER, EventType.CHALLENGE));
 			Saturday.add(new Event(4, LEGACY, EventType.CHALLENGE_32));
 			Saturday.add(new Event(6, STANDARD, EventType.CHALLENGE_32));
-			Saturday.add(new Event(8, MODERN, EventType.CHALLENGE));
+			Saturday.add(new Event(8, MODERN, EventType.CHALLENGE_96));
 			Saturday.add(new Event(10, VINTAGE, EventType.CHALLENGE));
-			Saturday.add(new Event(12, LIMITED, EventType.CHALLENGE));
-			Saturday.add(new Event(14, PIONEER, EventType.CHALLENGE));
+			Saturday.add(new Event(12, LIMITED, EventType.CHALLENGE_32));
+			Saturday.add(new Event(14, PIONEER, EventType.CHALLENGE_96));
 			Saturday.add(new Event(16, LIMITED));
 			Saturday.add(new Event(18, MODERN, EventType.CHALLENGE));
 			
@@ -111,11 +116,11 @@ public class ScheduleInfo {
 			
 			Sunday.add(new Event(0, VINTAGE, EventType.CHALLENGE));
 			Sunday.add(new Event(1, LIMITED, EventType.CHALLENGE_32));
-			Sunday.add(new Event(4, MODERN, EventType.CHALLENGE));
-			Sunday.add(new Event(6, PIONEER, EventType.CHALLENGE));
+			Sunday.add(new Event(4, MODERN, EventType.CHALLENGE_96));
+			Sunday.add(new Event(6, PIONEER, EventType.CHALLENGE_96));
 			Sunday.add(new Event(8, LEGACY, EventType.CHALLENGE));
 			Sunday.add(new Event(10, PAUPER, EventType.CHALLENGE));
-			Sunday.add(new Event(12, LIMITED, EventType.CHALLENGE));
+			Sunday.add(new Event(12, LIMITED, EventType.CHALLENGE_32));
 			Sunday.add(new Event(14, STANDARD, EventType.CHALLENGE_32));
 			Sunday.add(new Event(16, LIMITED));
 			
@@ -138,14 +143,24 @@ public class ScheduleInfo {
 		addAll(map, LocalDate.parse("2023-08-13"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2023-08-19"), new Event(6, STANDARD, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2023-08-20"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
+
+		addAll(map, LocalDate.parse("2023-10-06"), new Event(14, PIONEER, RCQ));
+		addAll(map, LocalDate.parse("2023-10-08"), new Event(7, LIMITED, "WOE", SUPER_RCQ));
 		
-		addAll(map, LocalDate.parse("2023-10-07"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
-		addAll(map, LocalDate.parse("2023-10-08"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2023-10-14"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2023-10-15"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2023-10-21"), new Event(6, STANDARD, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2023-10-22"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
+
+		addAll(map, LocalDate.parse("2023-10-27"), new Event(14, LIMITED, "WOE", RCQ));
+		addAll(map, LocalDate.parse("2023-10-28"), new Event(7, PAUPER, RCQ));
+
+		addAll(map, LocalDate.parse("2023-11-04"), new Event(1, LIMITED, "WOE", RCQ));
+		addAll(map, LocalDate.parse("2023-11-05"), new Event(1, MODERN, RCQ));
 		
 		addAll(map, LocalDate.parse("2023-11-18"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2023-11-19"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2023-11-24"), new Event(7, LIMITED, "LCI", SUPER_RCQ));
 		addAll(map, LocalDate.parse("2023-11-25"), new Event(6, STANDARD, SHOWCASE_CHALLENGE));
 		addAll(map, LocalDate.parse("2023-11-26"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
 		

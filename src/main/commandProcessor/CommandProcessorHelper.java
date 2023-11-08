@@ -103,10 +103,12 @@ public class CommandProcessorHelper {
 			tweet = tweet.replace("Challenge", "Chally");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
-			tweet = tweet.replace("Challenge (32-player)", "Challenge-32");
+			tweet = tweet.replace(" (32-player)", "-32");
+			tweet = tweet.replace(" (96-player)", "-96");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
-			tweet = tweet.replace(" (32-player)", "-32");
+			tweet = tweet.replace("-32", "");
+			tweet = tweet.replace("-96", "");
 		}
 		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace(" Event", "");
