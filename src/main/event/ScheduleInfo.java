@@ -90,7 +90,7 @@ public class ScheduleInfo {
 			Friday.add(new Event(7, LEGACY));
 			Friday.add(new Event(10, LIMITED));
 			Friday.add(new Event(11, VINTAGE));
-			Friday.add(new Event(14, PIONEER, EventType.CHALLENGE_32));
+			Friday.add(new Event(14, PIONEER, EventType.CHALLENGE));
 			Friday.add(new Event(16, LIMITED, EventType.CHALLENGE_32));
 			Friday.add(new Event(18, MODERN, EventType.CHALLENGE));
 			
