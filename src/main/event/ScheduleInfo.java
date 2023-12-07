@@ -134,38 +134,47 @@ public class ScheduleInfo {
 	public static Map<LocalDate, List<Event>> getSpecialEventSchedule() {
 		Map<LocalDate, List<Event>> map = new LinkedHashMap<>(); // iteration order = insertion order
 		
-		addAll(map, LocalDate.parse("2023-07-30"), new Event(7, MODERN, SUPER_RCQ));
-
-		addAll(map, LocalDate.parse("2023-08-05"), new Event(3, LIMITED, "LTR", SUPER_RCQ));
-		addAll(map, LocalDate.parse("2023-08-06"), new Event(7, LIMITED, "LTR", SUPER_RCQ));
-		
-		addAll(map, LocalDate.parse("2023-08-12"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
-		addAll(map, LocalDate.parse("2023-08-13"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
-		addAll(map, LocalDate.parse("2023-08-19"), new Event(6, STANDARD, SHOWCASE_CHALLENGE));
-		addAll(map, LocalDate.parse("2023-08-20"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
-
-		addAll(map, LocalDate.parse("2023-10-06"), new Event(14, PIONEER, RCQ));
-		addAll(map, LocalDate.parse("2023-10-08"), new Event(7, LIMITED, "WOE", SUPER_RCQ));
-		
-		addAll(map, LocalDate.parse("2023-10-14"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
-		addAll(map, LocalDate.parse("2023-10-15"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
-		addAll(map, LocalDate.parse("2023-10-21"), new Event(6, STANDARD, SHOWCASE_CHALLENGE));
-		addAll(map, LocalDate.parse("2023-10-22"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
-
-		addAll(map, LocalDate.parse("2023-10-27"), new Event(14, LIMITED, "WOE", RCQ));
-		addAll(map, LocalDate.parse("2023-10-28"), new Event(7, PAUPER, RCQ));
-
-		addAll(map, LocalDate.parse("2023-11-04"), new Event(1, LIMITED, "WOE", RCQ));
-		addAll(map, LocalDate.parse("2023-11-05"), new Event(1, MODERN, RCQ));
-		
-		addAll(map, LocalDate.parse("2023-11-18"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
-		addAll(map, LocalDate.parse("2023-11-19"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
-		addAll(map, LocalDate.parse("2023-11-24"), new Event(7, LIMITED, "LCI", SUPER_RCQ));
-		addAll(map, LocalDate.parse("2023-11-25"), new Event(6, STANDARD, SHOWCASE_CHALLENGE));
-		addAll(map, LocalDate.parse("2023-11-26"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
-		
 		addAll(map, LocalDate.parse("2023-12-16"), new Event(7, LIMITED, "LCI", MOCS_OPEN));
 		addAll(map, LocalDate.parse("2023-12-17"), new Event(7, LIMITED, "LCI", MOCS_OPEN));
+		
+		addAll(map, LocalDate.parse("2023-12-23"), new Event(7, PIONEER, SUPER_RCQ));
+		addAll(map, LocalDate.parse("2023-12-25"), new Event(14, LIMITED, "LCI", SUPER_RCQ));
+		addAll(map, LocalDate.parse("2023-12-26"), new Event(1, MODERN, SUPER_RCQ));
+		addAll(map, LocalDate.parse("2023-12-27"), new Event(7, MODERN, SUPER_RCQ));
+		addAll(map, LocalDate.parse("2023-12-28"), new Event(7, LEGACY, SUPER_RCQ));
+		addAll(map, LocalDate.parse("2023-12-29"), new Event(7, PIONEER, SUPER_RCQ));
+		addAll(map, LocalDate.parse("2023-12-30"), new Event(7, LIMITED, "LCI", SUPER_RCQ));
+		
+		addAll(map, LocalDate.parse("2024-01-01"), new Event(7, STANDARD, RCQ));
+		addAll(map, LocalDate.parse("2024-01-06"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2024-01-07"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2024-01-14"), new Event(1, MODERN, RCQ));
+		addAll(map, LocalDate.parse("2024-01-15"), new Event(7, MODERN, RCQ));
+		addAll(map, LocalDate.parse("2024-01-20"), new Event(10, VINTAGE, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2024-01-21"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2024-01-27"), new Event(7, PIONEER, RCQ));
+		addAll(map, LocalDate.parse("2024-01-28"), new Event(7, LIMITED, "RVR", SUPER_RCQ));
+		
+		addAll(map, LocalDate.parse("2024-02-02"), new Event(14, LIMITED, "RVR", RCQ));
+		addAll(map, LocalDate.parse("2024-02-10"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2024-02-11"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2024-02-17"), new Event(10, VINTAGE, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2024-02-18"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2024-02-19"), new Event(7, LIMITED, "MKM", RCQ));
+		addAll(map, LocalDate.parse("2024-02-23"), new Event(14, LEGACY, RCQ));
+		addAll(map, LocalDate.parse("2024-02-24"), new Event(7, LIMITED, "MKM", SUPER_RCQ));
+		addAll(map, LocalDate.parse("2024-02-25"), new Event(1, LIMITED, "MKM", SUPER_RCQ));
+		
+		addAll(map, LocalDate.parse("2024-03-02"), new Event(7, PAUPER, RCQ));
+		addAll(map, LocalDate.parse("2024-03-03"), new Event(7, VINTAGE, SUPER_RCQ));
+		addAll(map, LocalDate.parse("2024-03-08"), new Event(14, LIMITED, "MKM", RCQ));
+		addAll(map, LocalDate.parse("2024-03-09"), new Event(8, MODERN, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2024-03-10"), new Event(6, PIONEER, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2024-03-16"), new Event(10, VINTAGE, SHOWCASE_CHALLENGE));
+		addAll(map, LocalDate.parse("2024-03-17"), new Event(8, LEGACY, SHOWCASE_CHALLENGE));
+		
+		addAll(map, LocalDate.parse("2024-04-06"), new Event(7, LIMITED, "MKM", MOCS_OPEN));
+		addAll(map, LocalDate.parse("2024-04-07"), new Event(7, LIMITED, "MKM", MOCS_OPEN));
 		
 		return map;
 	}
@@ -286,11 +295,11 @@ public class ScheduleInfo {
 	}
 	
 	public static LocalDate getLCQStartDate() {
-		return LocalDate.parse("2023-11-26");
+		return LocalDate.parse("2024-03-18");
 	}
 	
 	public static LocalDate getLCQEndDate() {
-		return LocalDate.parse("2023-11-29");
+		return LocalDate.parse("2024-03-20");
 	}
 	
 	private static void addAll(Map<LocalDate, List<Event>> map, LocalDate date, Event... events) {

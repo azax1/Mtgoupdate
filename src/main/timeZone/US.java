@@ -10,8 +10,8 @@ public class US extends TimeZone {
 	
 	private US() {
 		this.offsetFromPT = 0;
- 		this.dstStarts = LocalDate.parse("2023-03-12");
-		this.dstEnds = LocalDate.parse("2023-11-05");
+ 		this.dstStarts = LocalDate.parse("2024-03-10");
+		this.dstEnds = LocalDate.parse("2024-11-03");
 		this.name = "PT";
 	}
 	
