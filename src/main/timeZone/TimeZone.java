@@ -147,7 +147,7 @@ public abstract class TimeZone {
 				} else if (type == SHOWCASE_CHALLENGE) { // replaces corresponding Challenge
 					for (int i = 0; i < regular.size(); i++) {
 						Event e = regular.get(i);
-						if ((e.getEventType() == CHALLENGE || e.getEventType() == CHALLENGE_32)
+						if ((e.getEventType() == CHALLENGE || e.getEventType() == CHALLENGE_32 || e.getEventType() == CHALLENGE_96)
 							&& e.getFormat() == event.getFormat()) {
 							regular.remove(i);
 							break;
