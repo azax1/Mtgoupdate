@@ -106,7 +106,7 @@ public class ScheduleInfo {
 			Saturday.add(new Event(8, MODERN, EventType.CHALLENGE_96));
 			Saturday.add(new Event(10, VINTAGE, EventType.CHALLENGE));
 			Saturday.add(new Event(12, LIMITED, EventType.CHALLENGE_32));
-			Saturday.add(new Event(14, PIONEER, EventType.CHALLENGE_96));
+			Saturday.add(new Event(14, PIONEER, EventType.CHALLENGE));
 			Saturday.add(new Event(16, LIMITED));
 			Saturday.add(new Event(18, MODERN, EventType.CHALLENGE));
 			
@@ -117,9 +117,9 @@ public class ScheduleInfo {
 			Sunday.add(new Event(0, VINTAGE, EventType.CHALLENGE));
 			Sunday.add(new Event(1, LIMITED, EventType.CHALLENGE_32));
 			Sunday.add(new Event(4, MODERN, EventType.CHALLENGE_96));
-			Sunday.add(new Event(6, PIONEER, EventType.CHALLENGE_96));
+			Sunday.add(new Event(6, PIONEER, EventType.CHALLENGE));
 			Sunday.add(new Event(8, LEGACY, EventType.CHALLENGE));
-			Sunday.add(new Event(10, PAUPER, EventType.CHALLENGE));
+			Sunday.add(new Event(10, PAUPER, EventType.CHALLENGE_32));
 			Sunday.add(new Event(12, LIMITED, EventType.CHALLENGE_32));
 			Sunday.add(new Event(14, STANDARD, EventType.CHALLENGE));
 			Sunday.add(new Event(16, LIMITED));
