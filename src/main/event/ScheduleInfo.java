@@ -31,6 +31,7 @@ public class ScheduleInfo {
 			Monday.add(new Event(7, MODERN));
 			Monday.add(new Event(9, LIMITED));
 			Monday.add(new Event(11, LEGACY));
+			Monday.add(new Event(14, STANDARD));
 			Monday.add(new Event(15, MODERN));
 			Monday.add(new Event(17, VINTAGE));
 			Monday.add(new Event(18, LIMITED));
@@ -45,10 +46,12 @@ public class ScheduleInfo {
 			Tuesday.add(new Event(3, MODERN));
 			Tuesday.add(new Event(7, PIONEER));
 			Tuesday.add(new Event(9, LIMITED));
+			Tuesday.add(new Event(10, STANDARD));
 			Tuesday.add(new Event(11, MODERN));
 			Tuesday.add(new Event(15, PIONEER));
 			Tuesday.add(new Event(16, LIMITED));
 			Tuesday.add(new Event(17, MODERN));
+			Tuesday.add(new Event(18, STANDARD));
 			Tuesday.add(new Event(19, LEGACY));
 			
 			return Tuesday;
@@ -56,9 +59,12 @@ public class ScheduleInfo {
 			List<Event> Wednesday = new ArrayList<Event>();
 			
 			Wednesday.add(new Event(0, LIMITED));
+			Wednesday.add(new Event(2, MODERN));
 			Wednesday.add(new Event(3, LEGACY));
+			Wednesday.add(new Event(6, PIONEER));
 			Wednesday.add(new Event(7, LIMITED));
 			Wednesday.add(new Event(9, MODERN));
+			Wednesday.add(new Event(12, STANDARD));
 			Wednesday.add(new Event(13, PIONEER));
 			Wednesday.add(new Event(15, MODERN));
 			Wednesday.add(new Event(16, LIMITED));
@@ -72,6 +78,7 @@ public class ScheduleInfo {
 			Thursday.add(new Event(0, MODERN));
 			Thursday.add(new Event(3, PIONEER));
 			Thursday.add(new Event(7, LIMITED));
+			Thursday.add(new Event(10, STANDARD));
 			Thursday.add(new Event(11, MODERN));
 			Thursday.add(new Event(12, LIMITED));
 			Thursday.add(new Event(15, LEGACY));
@@ -88,11 +95,14 @@ public class ScheduleInfo {
 			Friday.add(new Event(2, LIMITED));
 			Friday.add(new Event(4, MODERN));
 			Friday.add(new Event(7, LEGACY));
+			Friday.add(new Event(9, STANDARD));
 			Friday.add(new Event(10, LIMITED));
 			Friday.add(new Event(11, VINTAGE));
 			Friday.add(new Event(14, PIONEER, EventType.CHALLENGE));
+			Friday.add(new Event(15, STANDARD));
 			Friday.add(new Event(16, LIMITED, EventType.CHALLENGE_32));
 			Friday.add(new Event(18, MODERN, EventType.CHALLENGE));
+			Friday.add(new Event(19, STANDARD));
 			
 			return Friday;
 		} else if (day == DayOfWeek.SATURDAY) {

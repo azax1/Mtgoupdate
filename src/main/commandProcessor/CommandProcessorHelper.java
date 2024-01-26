@@ -137,6 +137,12 @@ public class CommandProcessorHelper {
 		if (tweet.length() > MAX_TWEET_LENGTH) {
 			tweet = tweet.replace("MOCS LCQ", "LCQ");
 		}
+		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace("Limited", "Lmtd");
+		}
+		if (tweet.length() > MAX_TWEET_LENGTH) {
+			tweet = tweet.replace("Lmtd", "Ltd");
+		}
 		return tweet;
 	}
 
